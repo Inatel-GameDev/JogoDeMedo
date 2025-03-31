@@ -106,3 +106,16 @@ Base
 
 
 ## Modo Dev 
+
+## Código 
+Classes principais: 
+* Jogador (máquina de estado)
+* Monstro (máquina de estado)
+* Estado 
+* GameManager
+
+## Unity 
+
+Objeto jogador: 
+* RigidBody, Collider 
+* Filhos cada um com um estado 
