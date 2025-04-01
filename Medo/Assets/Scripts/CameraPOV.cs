@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Camera : MonoBehaviour
+public class CameraPOV : MonoBehaviour
 {
 
 public float sesnsibilidadeX;

@@ -16,6 +16,7 @@ public class JogadorAndando : Estado
     private float horizontalInput;
     private Vector3 moveDirection;
     private float verticalInput;
+    [SerializeField] private  AudioSource audioAndar;
     
 
 
@@ -39,6 +40,12 @@ public class JogadorAndando : Estado
             jogador.rb.linearDamping = groundDrag;
         else
             jogador.rb.linearDamping = 0;
+        if (jogador.rb.linearVelocity.x != 0 || jogador.rb.linearVelocity.z != 0){
+            //audioAndar.Play();
+        }
+        else {
+            //audioAndar.Pause();
+        }
         MyInput();
         Movejogador();
         SpeedControl();

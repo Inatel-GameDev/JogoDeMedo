@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 
@@ -17,8 +18,11 @@ public class Jogador : MaquinaDeEstado
     public Rigidbody rb;    
     // public Anim anim;
     [SerializeField] private float vida;
+    [SerializeField] private float vidaMaxima;
     [SerializeField] private float velocidade;
     [SerializeField] private float capacidade;
+    [SerializeField] private TMP_Text textoVida;
+    [SerializeField] public SoundPlayer soundPlayer;
 
     //public Item[] inventario;
 
@@ -27,6 +31,7 @@ public class Jogador : MaquinaDeEstado
     {
         rb = GetComponent<Rigidbody>();
         EstadoAtual = EstadoAndando;
+        textoVida.SetText(vida + "/" + vidaMaxima);
         EstadoAtual.Enter();
         
     }
@@ -54,9 +59,13 @@ public class Jogador : MaquinaDeEstado
     public void machucaJogador(float dano){
         vida -= dano;
         if(vida <= 0){
+            textoVida.SetText(vida + "/" + vidaMaxima);
+            soundPlayer.playSound(SoundsJogador.instance.morte);
             Debug.Log("Morreu");
-        } else {
-            Debug.Log("Machucado");
+        } else {            
+            textoVida.SetText(vida + "/" + vidaMaxima);
+            soundPlayer.playSound(SoundsJogador.instance.atingido);
+            Debug.Log("Machucado");            
         }
     }
 
