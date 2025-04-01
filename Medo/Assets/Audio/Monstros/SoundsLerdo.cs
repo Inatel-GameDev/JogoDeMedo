@@ -7,6 +7,7 @@ public class SoundsLerdo : MonoBehaviour
     
     public AudioClip explosao;
     public AudioClip monstroAndando;
+    public AudioClip aviso;
 
     void Awake()
     {

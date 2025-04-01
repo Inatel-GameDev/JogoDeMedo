@@ -35,16 +35,17 @@ public class JogadorAndando : Estado
     public override void FixedDo()
     {
         grounded = Physics.Raycast(transform.position, Vector3.down, jogadorHeight / 2f, whatIsGround);
-            Debug.DrawRay(transform.position, Vector3.down * (jogadorHeight / 2), grounded ? Color.green : Color.red);
+        Debug.DrawRay(transform.position, Vector3.down * (jogadorHeight / 2), grounded ? Color.green : Color.red);
         if (grounded)
             jogador.rb.linearDamping = groundDrag;
         else
             jogador.rb.linearDamping = 0;
         if (jogador.rb.linearVelocity.x != 0 || jogador.rb.linearVelocity.z != 0){
-            //audioAndar.Play();
+            if(!audioAndar.isPlaying)
+            audioAndar.Play();
         }
         else {
-            //audioAndar.Pause();
+            audioAndar.Pause();
         }
         MyInput();
         Movejogador();

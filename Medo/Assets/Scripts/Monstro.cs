@@ -4,18 +4,20 @@ using UnityEngine.AI;
 
 public class Monstro : MaquinaDeEstado
 {
-    [SerializeField] public Estado EstadoPerseguindo;
+    [SerializeField] public Estado estadoPerseguindo;
+    [SerializeField] public Estado estadoAtcando;
     [SerializeField] public GameManager manager;
     public Rigidbody rb;
     public NavMeshAgent agente;
-    [SerializeField] private SoundPlayer soundPlayer;
-    [SerializeField] private float dano;
+    [SerializeField] public SoundPlayer soundPlayer;
+    [SerializeField] public float dano;
+    //public Jogador jogadorAlvo;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         agente = GetComponent<NavMeshAgent>();
-        EstadoAtual = EstadoPerseguindo;
+        EstadoAtual = estadoPerseguindo;
         EstadoAtual.Enter();
     }
 
@@ -37,11 +39,10 @@ public class Monstro : MaquinaDeEstado
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Player")){
-            soundPlayer.playSound(SoundsLerdo.instance.explosao);
-            Jogador jogador = other.gameObject.GetComponent<Jogador>();
-            jogador.machucaJogador(dano);
-            Debug.Log("Explodir");
+        if(other.gameObject.CompareTag("Player")){                        
+            //jogadorAlvo = other.gameObject.GetComponent<Jogador>();
+            if(EstadoAtual == estadoPerseguindo)
+                MudarEstado(estadoAtcando);
         }        
     }
 }

@@ -5,10 +5,12 @@ public class MonstroPerseguindo : Estado
 {
     [SerializeField] private Transform jogador;
     [SerializeField] private Monstro monstro;
+    [SerializeField] private AudioSource audioAndando;
     
     public override void Enter()
     {
-        
+        audioAndando.Play();
+        monstro.agente.isStopped = false;
     }
     public override void FixedDo()
     {
@@ -24,7 +26,9 @@ public class MonstroPerseguindo : Estado
     }     
     public override void Exit()
     {
-        
+        monstro.agente.isStopped = true;
+        audioAndando.Stop();
+
     }
 
 }
