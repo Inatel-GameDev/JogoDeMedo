@@ -1704,6 +1704,7 @@ MonoBehaviour:
   rb: {fileID: 1336095575}
   agente: {fileID: 0}
   soundPlayer: {fileID: 1336095579}
+  dano: 0
 --- !u!195 &1336095577
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1902,9 +1903,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosao: {fileID: 8300000, guid: 09ac888fd1ffd75e3aada7220285315c, type: 3}
-  jogadorAndando: {fileID: 0}
-  jogadorPulando: {fileID: 0}
-  jogadorFerido: {fileID: 0}
   monstroAndando: {fileID: 0}
 --- !u!1 &1418359006
 GameObject:
@@ -1935,7 +1933,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 1326657520}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -1943,7 +1941,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -2691,7 +2689,7 @@ Transform:
   m_GameObject: {fileID: 2035669223}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.46, y: 0, z: 18}
+  m_LocalPosition: {x: -18.22, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2717,6 +2715,9 @@ MonoBehaviour:
   EstadoAndando: {fileID: 1230368053}
   manager: {fileID: 1918300823}
   rb: {fileID: 2035669226}
+  vida: 0
+  velocidade: 10
+  capacidade: 0
 --- !u!54 &2035669226
 Rigidbody:
   m_ObjectHideFlags: 0

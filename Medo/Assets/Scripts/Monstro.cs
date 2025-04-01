@@ -4,12 +4,12 @@ using UnityEngine.AI;
 
 public class Monstro : MaquinaDeEstado
 {
-    [SerializeField] public Estado EstadoAtual;
     [SerializeField] public Estado EstadoPerseguindo;
     [SerializeField] public GameManager manager;
     public Rigidbody rb;
     public NavMeshAgent agente;
     [SerializeField] private SoundPlayer soundPlayer;
+    [SerializeField] private float dano;
 
     void Start()
     {
@@ -35,24 +35,12 @@ public class Monstro : MaquinaDeEstado
         EstadoAtual.LateDo();
     }
 
-    public override void MudarEstado(Estado novoEstado)
-    {
-        try
-        {
-            EstadoAtual.Exit();
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e);
-        }
-        EstadoAtual = novoEstado;
-        EstadoAtual.Enter();
-    }
-    
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Player")){
-            soundPlayer.playSound(Sounds.instance.explosao);
+            soundPlayer.playSound(SoundsLerdo.instance.explosao);
+            Jogador jogador = other.gameObject.GetComponent<Jogador>();
+            jogador.machucaJogador(dano);
             Debug.Log("Explodir");
         }        
     }

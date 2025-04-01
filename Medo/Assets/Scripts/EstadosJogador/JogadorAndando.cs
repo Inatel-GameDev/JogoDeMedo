@@ -23,6 +23,7 @@ public class JogadorAndando : Estado
     {
         // jogador.anim.play_animation("idle");
         readyToJump = true;
+        moveSpeed = jogador.getVelocidade();
     }
 
     public override void Do()

@@ -3,16 +3,24 @@ using UnityEngine;
 
 
 // Classe principal de jogador
-// Controlar a troca entre estados e possuis as variaveis que precisam ser compartilhadas entre estados
+// Controlar a troca entre estados e possui as variaveis que precisam ser compartilhadas entre estados
 public class Jogador : MaquinaDeEstado
 {
-    [SerializeField] public Estado EstadoAtual;
 
     [SerializeField] public JogadorAndando EstadoAndando;
+    // MiniTask 
+    // Parado
+    // RagDoll 
+
  
     [SerializeField] public GameManager manager;
     public Rigidbody rb;    
     // public Anim anim;
+    [SerializeField] private float vida;
+    [SerializeField] private float velocidade;
+    [SerializeField] private float capacidade;
+
+    //public Item[] inventario;
 
 
     private void Start()
@@ -39,18 +47,17 @@ public class Jogador : MaquinaDeEstado
         EstadoAtual.LateDo();
     }
 
-    public override void MudarEstado(Estado novoEstado)
-    {
-        try
-        {
-            EstadoAtual.Exit();
+    public float getVelocidade(){
+        return velocidade;
+    }
+
+    public void machucaJogador(float dano){
+        vida -= dano;
+        if(vida <= 0){
+            Debug.Log("Morreu");
+        } else {
+            Debug.Log("Machucado");
         }
-        catch (Exception e)
-        {
-            Debug.Log(e);
-        }
-        EstadoAtual = novoEstado;
-        EstadoAtual.Enter();
     }
 
 
