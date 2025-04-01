@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 5f;
+    public float walkSpeed = 5f;
     public float gravity = -9.81f;
     public float jumpHeight = 2f;
 

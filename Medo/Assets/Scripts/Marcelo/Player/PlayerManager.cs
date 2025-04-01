@@ -1,16 +1,35 @@
 using UnityEngine;
+using DilmerGames.Core.Singletons;
+using Unity.Netcode;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : NetworkSingleton<PlayerManager>
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    private NetworkVariable<int> playerInGame = new NetworkVariable<int>();
+    public int PlayersInGame
     {
-        
+        get { return playerInGame.Value; }
     }
+    
+    private void Start()
+    {
+        NetworkManager.Singleton.OnClientConnectedCallback += (id) =>
+        {
+            if(IsServer)
+            {
+                playerInGame.Value++;
+                Debug.Log("Player connected: " + id + " Players in game: " + playerInGame.Value);
+            }
+        };
+        NetworkManager.Singleton.OnClientDisconnectCallback += (id) =>
+        {
+            if(IsServer)
+            {
+                playerInGame.Value--;
+                Debug.Log("Player disconnected: " + id + " Players in game: " + playerInGame.Value);
+            }
+        };
+    }
+    
+
 }

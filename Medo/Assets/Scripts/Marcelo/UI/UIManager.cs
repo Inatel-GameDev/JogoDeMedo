@@ -64,9 +64,10 @@ public class UIManager : MonoBehaviour
          });
     }
 
-    private void update()
+    private void Update()
     {
-        //playerInGameText.text = $"Players in game: {PlayerManager.Instance.PlayersInGame}";
+        Debug.Log("Players in game: " + PlayerManager.Instance.PlayersInGame);
+        playerInGameText.text = $"Players in game: {PlayerManager.Instance.PlayersInGame}";
     }
 
 }
