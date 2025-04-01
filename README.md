@@ -53,6 +53,7 @@ Celular
 * Trava zap 
 * Mulher casada 
 * Espada da cruz de malta 
+* Pistola 
 
 #### Mercado 
 * Ou na escolha de parar ou não 
@@ -66,6 +67,26 @@ Cada monstro tem um comportamento específico
 * Um lerdo que sempre sabe sua posição (lesma imortal - menina lethal company) 
 * Enderman da vida 
 * Monstro roleta russa  
+* Monstro fungo - anda aleatóriamente pelo mapa soltando poros 
+
+Russo: 
+* Estado Buscando 
+    * Não possui a localização precisa 
+        * Sabe por onde o jogador passou e o procura
+        * Quano perto o suficiente, consegue seguir precisamente 
+* Estado Jogando
+    * Se encostar em um jogador, abre uma hud para jogarem roleta russa
+    * Quem está fora não consegue interagir com eles
+    * O jogo é um simples vai e volta até um deles morrer ?
+
+
+Fungo:
+* Estado vagando
+    * Anda aleatóriamente 
+    * Solta Poros que ficam presos no chão e parede
+        * Poros infectam os jogadores e matam se não forem rápidos o suficiente  
+        * Se morrer para o poro, explode em vários outros poros 
+    * Infecta automaticamente se enconstar no jogador 
 
 Lerdo: 
 * Estado Perseguindo 
