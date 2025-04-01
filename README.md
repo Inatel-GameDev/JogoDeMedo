@@ -67,10 +67,15 @@ Cada monstro tem um comportamento específico
 * Enderman da vida 
 * Monstro roleta russa  
 
-Movimentação 	
-Ataque 
-Habilidades
-Estados
+Lerdo: 
+* Estado Perseguindo 
+    * Se move lentamente até o jogador
+    * sabe sua posição
+* Estado atacando 
+    * quando chega perto o suficiente dispara um ataque em área 
+    * precisa carregar o ataque dando chance para eles fugirem ou atacarem 
+    * a cada vez que erra o ataque, ele fica mais rápido 
+
 
 ## Ambiente  
 #### Mecânica da nave dos jogadores  
@@ -109,6 +114,7 @@ Base
 
 ## Código 
 Classes principais: 
+* Máquina de Estado
 * Jogador (máquina de estado)
 * Monstro (máquina de estado)
 * Estado 
@@ -117,5 +123,6 @@ Classes principais:
 ## Unity 
 
 Objeto jogador: 
+* Tag = Player
 * RigidBody, Collider 
 * Filhos cada um com um estado 

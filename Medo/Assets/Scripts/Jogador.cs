@@ -4,16 +4,15 @@ using UnityEngine;
 
 // Classe principal de jogador
 // Controlar a troca entre estados e possuis as variaveis que precisam ser compartilhadas entre estados
-public class Jogador : MonoBehaviour
+public class Jogador : MaquinaDeEstado
 {
     [SerializeField] public Estado EstadoAtual;
 
     [SerializeField] public JogadorAndando EstadoAndando;
  
     [SerializeField] public GameManager manager;
-    public Rigidbody rb;
+    public Rigidbody rb;    
     // public Anim anim;
-    
 
 
     private void Start()
@@ -21,25 +20,26 @@ public class Jogador : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         EstadoAtual = EstadoAndando;
         EstadoAtual.Enter();
+        
     }
 
-    private void Update()
+    public override void Update()
     {
         EstadoAtual.Do();
     }
 
-    private void FixedUpdate()
+    public override void FixedUpdate()
     {
         // if (Input.GetKeyDown(KeyCode.P)) MudarEstado(DriveEstado);
         EstadoAtual.FixedDo();
     }
 
-    private void LateUpdate()
+    public override void LateUpdate()
     {
         EstadoAtual.LateDo();
     }
 
-    public void MudarEstado(Estado novoEstado)
+    public override void MudarEstado(Estado novoEstado)
     {
         try
         {
@@ -51,14 +51,6 @@ public class Jogador : MonoBehaviour
         }
         EstadoAtual = novoEstado;
         EstadoAtual.Enter();
-    }
-
-    public void Pause()
-    {
-    }
-
-    public void ResumePlay()
-    {
     }
 
 
