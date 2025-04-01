@@ -74,7 +74,9 @@ Lerdo:
 * Estado atacando 
     * quando chega perto o suficiente dispara um ataque em área 
     * precisa carregar o ataque dando chance para eles fugirem ou atacarem 
-    * a cada vez que erra o ataque, ele fica mais rápido 
+    * a cada vez que erra o ataque, ele fica mais rápido e o ataque fica com mais alcance
+    * se acertar algum jogador ele volta em um ponto a velocidade
+    * Possui uma velocidade máxima
 
 
 ## Ambiente  
