@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MonstroAtacando : Estado
 {
-    [SerializeField] private Monstro monstro;
+    [SerializeField] private Lerdo monstro;
     [SerializeField] private SphereCollider ataqueCollider;
     [SerializeField] private bool acertou = false;
 

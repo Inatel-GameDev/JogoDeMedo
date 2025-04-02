@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Monstro : MaquinaDeEstado
+public class Lerdo : MaquinaDeEstado
 {
     [SerializeField] public Estado estadoPerseguindo;
     [SerializeField] public Estado estadoAtcando;
