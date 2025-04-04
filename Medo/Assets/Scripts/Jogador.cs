@@ -69,5 +69,14 @@ public class Jogador : MaquinaDeEstado
         }
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("BombaFungo")){
+            Destroy(other.gameObject);
+            machucaJogador(1);
+            
+        }
+    }
+
 
 }

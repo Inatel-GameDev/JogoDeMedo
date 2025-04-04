@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class MonstroAtacando : Estado
+public class LerdoAtacando : Estado
 {
     [SerializeField] private Lerdo monstro;
     [SerializeField] private SphereCollider ataqueCollider;
