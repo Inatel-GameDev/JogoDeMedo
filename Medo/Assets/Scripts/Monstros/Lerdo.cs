@@ -2,17 +2,11 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Lerdo : MaquinaDeEstado
+public class Lerdo : Monstro
 {
     [SerializeField] public Estado estadoPerseguindo;
     [SerializeField] public Estado estadoAtcando;
-    [SerializeField] public GameManager manager;
-    public Rigidbody rb;
-    public NavMeshAgent agente;
-    [SerializeField] public SoundPlayer soundPlayer;
-    [SerializeField] public float dano;
-    //public Jogador jogadorAlvo;
-
+    
     void Start()
     {
         rb = GetComponent<Rigidbody>();

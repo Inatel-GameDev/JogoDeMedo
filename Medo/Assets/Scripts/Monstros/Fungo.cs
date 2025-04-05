@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class Fungo : MaquinaDeEstado
+public class Fungo : Monstro
 {
     [SerializeField] private Estado estadoVagando;
     [SerializeField] private Estado estadoVagandoSemi;
