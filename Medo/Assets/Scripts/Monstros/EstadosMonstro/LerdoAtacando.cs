@@ -60,7 +60,7 @@ public class LerdoAtacando : Estado
         yield return new WaitForSeconds(0.3f);
         ataqueCollider.enabled = false;
         yield return new WaitForSeconds(1);
-        monstro.MudarEstado(monstro.estadoPerseguindo);        
+        monstro.MudarEstado(monstro.estadoSeguindo);        
     }
 
 

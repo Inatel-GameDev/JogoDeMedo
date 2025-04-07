@@ -63,11 +63,9 @@ Celular
 
 #### Monstros
 Cada monstro tem um comportamento específico 
-* Um rápido que precisa te achar 
-* Um lerdo que sempre sabe sua posição (lesma imortal - menina lethal company) 
+* Um rápido que precisa te achar  
 * Enderman da vida 
-* Monstro roleta russa  
-* Monstro fungo - anda aleatóriamente pelo mapa soltando poros 
+* Monstro roleta russa   
 
 Russo: 
 * Estado Buscando 
@@ -79,19 +77,18 @@ Russo:
     * Quem está fora não consegue interagir com eles
     * O jogo é um simples vai e volta até um deles morrer ?
 
-
 Fungo:
 * Estado vagando
-    * Anda aleatóriamente 
+    * Percorre o mapa todo com o algoritmo de matriz
     * Solta Poros que ficam presos no chão e parede
         * Poros infectam os jogadores e matam se não forem rápidos o suficiente  
         * Se morrer para o poro, explode em vários outros poros 
     * Infecta automaticamente se enconstar no jogador 
 
 Lerdo: 
-* Estado Perseguindo 
+* Estado Seguindo 
     * Se move lentamente até o jogador
-    * sabe sua posição
+    * Sabe a sua posição
 * Estado atacando 
     * quando chega perto o suficiente dispara um ataque em área 
     * precisa carregar o ataque dando chance para eles fugirem ou atacarem 
@@ -102,7 +99,7 @@ Lerdo:
 
 ## Ambiente  
 #### Mecânica da nave dos jogadores  
-* A nave começa com apenas a habilidade de seguir em frente e parar.
+* A nave começa com apenas a habilidade de seguir ou parar.
     * Gasta combustivel
 * Podem achar peças para melhorar a nave 
     * Scanner da informação sobre as paradas
@@ -146,7 +143,13 @@ Objeto jogador:
   * Orientation e Camera Pos ⇾ Navegação e Primeira Pessoa
   * Corpo  ⇾  Mesh Renderer do modelo 
   * Sounds ⇾ Um objeto para armazenar em lista todos os sons disponíveis para o jogador  
-    
+
+Objeto Monstro Base: 
+* RigidBody, NavMeshAgent, SoundPlayer,AudioSource
+* Filhos:
+  * Cada Estado é um filho e possui o código e os componentes específicos dele
+  * Corpo  ⇾  Mesh Renderer do modelo
+  * Sounds ⇾ Um objeto para armazenar em lista todos os sons disponíveis para o jogador
 
 UML: 
 https://lucid.app/lucidchart/467e5d9c-0615-407e-b290-0dc68f0b5770/edit?viewport_loc=-736%2C-836%2C3758%2C1590%2C0_0&invitationId=inv_a7b80d4c-90e6-4854-9ec1-d8450a940b6d

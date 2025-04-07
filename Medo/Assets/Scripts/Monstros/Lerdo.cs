@@ -4,14 +4,14 @@ using UnityEngine.AI;
 
 public class Lerdo : Monstro
 {
-    [SerializeField] public Estado estadoPerseguindo;
-    [SerializeField] public Estado estadoAtcando;
+    [SerializeField] public Estado estadoSeguindo;
+    [SerializeField] public Estado estadoAtacando;
     
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         agente = GetComponent<NavMeshAgent>();
-        EstadoAtual = estadoPerseguindo;
+        EstadoAtual = estadoSeguindo;
         EstadoAtual.Enter();
     }
 
@@ -35,8 +35,8 @@ public class Lerdo : Monstro
     {
         if(other.gameObject.CompareTag("Player")){                        
             //jogadorAlvo = other.gameObject.GetComponent<Jogador>();
-            if(EstadoAtual == estadoPerseguindo)
-                MudarEstado(estadoAtcando);
+            if(EstadoAtual == estadoSeguindo)
+                MudarEstado(estadoAtacando);
         }        
     }
 }
