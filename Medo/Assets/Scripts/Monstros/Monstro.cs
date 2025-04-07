@@ -8,4 +8,16 @@ public abstract class Monstro : MaquinaDeEstado
     public NavMeshAgent agente;
     [SerializeField] public SoundPlayer soundPlayer;
     [SerializeField] public float dano;
+    [SerializeField] public float vida;
+    [SerializeField] public float armadura;
+
+    public void machucaMonstro(float danoExterno)
+    {
+        danoExterno -= armadura;
+        if(danoExterno <= 0)
+            return;
+        
+        vida -= danoExterno;
+        
+    }
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class LerdoPerseguindo : Estado
+public class LerdoSeguindo : Estado
 {
     [SerializeField] private Transform jogador;
     [SerializeField] private Lerdo monstro;
