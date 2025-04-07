@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -23,6 +24,9 @@ public class Jogador : MaquinaDeEstado
     [SerializeField] private float capacidade;
     [SerializeField] private TMP_Text textoVida;
     [SerializeField] public SoundPlayer soundPlayer;
+    [SerializeField] public float veneno; 
+    [SerializeField] private float resistencia; 
+    [SerializeField] private float cooldownVeneno = 5f; 
 
     //public Item[] inventario;
 
@@ -73,10 +77,22 @@ public class Jogador : MaquinaDeEstado
     {
         if(other.gameObject.CompareTag("BombaFungo")){
             Destroy(other.gameObject);
-            machucaJogador(1);
-            
+            veneno += 1; 
+            StartCoroutine(Envenenado());
         }
     }
 
-
+    public IEnumerator Envenenado()
+    {
+        resistencia += veneno;
+        yield return new WaitForSeconds(cooldownVeneno);
+        if (resistencia >= 100)
+        {
+            Debug.Log("Morreu");
+        }
+        else
+        {
+            StartCoroutine(Envenenado());    
+        }
+    }
 }

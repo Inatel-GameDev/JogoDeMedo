@@ -39,4 +39,14 @@ public class Fungo : Monstro
         Instantiate(bomba, pos,rot); 
         StartCoroutine("Ataque");                 
     }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Jogador jogador = other.gameObject.GetComponent<Jogador>();
+            jogador.veneno += 20; 
+            StartCoroutine(jogador.Envenenado());
+        }
+    }
 }
