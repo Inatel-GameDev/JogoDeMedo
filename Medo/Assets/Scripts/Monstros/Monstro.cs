@@ -10,6 +10,10 @@ public abstract class Monstro : MaquinaDeEstado
     [SerializeField] public float dano;
     [SerializeField] public float vida;
     [SerializeField] public float armadura;
+    
+    // lista de jogadores 
+    // sorteio entre eles 
+    // mais proximo do monstro 
 
     public void machucaMonstro(float danoExterno)
     {

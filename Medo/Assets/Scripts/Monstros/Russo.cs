@@ -9,6 +9,7 @@ public class Russo : Monstro
     public Estado estadoAtacando;
     [SerializeField] public Jogador jogadorAlvo;
     [SerializeField] private float distanciaMinima;
+    [SerializeField] private float dist;
     
     private void Start()
     {
@@ -29,13 +30,13 @@ public class Russo : Monstro
         
         if (jogadorAlvo != null && EstadoAtual != estadoAtacando)
         {
-            float dist = (jogadorAlvo.transform.position - transform.position).sqrMagnitude;
-            Debug.Log(dist);
-            if (dist < distanciaMinima)
+            dist = (jogadorAlvo.transform.position - transform.position).sqrMagnitude;
+            
+            if (dist < distanciaMinima && EstadoAtual != estadoPerto)
             {
                 MudarEstado(estadoPerto);
             }
-            else
+            if(dist>= distanciaMinima && EstadoAtual != estadoPerseguindo)
             {
                 MudarEstado(estadoPerseguindo);
             }
@@ -49,11 +50,11 @@ public class Russo : Monstro
     
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Player")){    
-            Debug.Log("ataque");
-            //jogadorAlvo = other.gameObject.GetComponent<Jogador>();
-            if(EstadoAtual == estadoPerto)
+        if(other.gameObject.CompareTag("Player") && EstadoAtual == estadoPerto){
+            {
+                jogadorAlvo = other.gameObject.GetComponent<Jogador>();
                 MudarEstado(estadoAtacando);
+            }
         }        
     }
 }

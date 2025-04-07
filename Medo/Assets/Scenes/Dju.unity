@@ -1285,6 +1285,7 @@ MonoBehaviour:
   estadoAtacando: {fileID: 25064788}
   jogadorAlvo: {fileID: 0}
   distanciaMinima: 100
+  dist: 0
 --- !u!135 &389425785
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3235,6 +3236,7 @@ GameObject:
   - component: {fileID: 1295386987}
   - component: {fileID: 1295386984}
   - component: {fileID: 1295386985}
+  - component: {fileID: 1295386989}
   m_Layer: 0
   m_Name: Perseguindo
   m_TagString: Untagged
@@ -3254,9 +3256,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8d04ed3943840b1aaeddb1de06855a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jogador: {fileID: 0}
   monstro: {fileID: 389425784}
   audioAndando: {fileID: 1295386987}
-  posicaoAtrasada: 0
+  posicao: {x: 0, y: 0, z: 0}
+  tempoDeAtraso: 3
+  tempoAtual: 0
+  posicaoCerta: 0
+  erranteAlg: {fileID: 0}
 --- !u!135 &1295386985
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3390,6 +3397,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 648328745}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1295386989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1295386983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84952912f6e34e07a330ffabfb34033b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  densidade: 1
+  tamanho: 0
+  posX: 0
+  posY: 0
+  dir: 0
+  wanderRadius: 4
+  wanderTimer: 0
+  wanderRadiusMemoria: 10
+  minDistanceBetweenPoints: 5
+  maxHistorySize: 5
 --- !u!1 &1341000635
 GameObject:
   m_ObjectHideFlags: 0

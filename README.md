@@ -68,10 +68,12 @@ Cada monstro tem um comportamento específico
 * Monstro roleta russa   
 
 Russo: 
-* Estado Buscando 
-    * Não possui a localização precisa 
-        * Sabe por onde o jogador passou e o procura
-        * Quano perto o suficiente, consegue seguir precisamente 
+* Estado Perseguindo 
+    * Não possui a localização precisa
+      * Recebe a informação da posição a cada 3 segundos
+      * Se estiver muito longe, recebe a posição distorcida em alguma direção aleatória
+* Estado Perto
+    * consegue seguir precisamente 
 * Estado Jogando
     * Se encostar em um jogador, abre uma hud para jogarem roleta russa
     * Quem está fora não consegue interagir com eles
