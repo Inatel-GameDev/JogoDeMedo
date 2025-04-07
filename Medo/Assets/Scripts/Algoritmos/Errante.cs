@@ -3,8 +3,8 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-// Classe genérica para movimentação pelo mapa sem considerar o jogador 
-// Algoritmos implementados: Matriz, Aleatório sem meḿoria, Aleatório com memória curta
+/// Classe genérica para movimentação pelo mapa sem considerar o jogador 
+/// --- Algoritmos implementados: Matriz, Aleatório sem meḿoria, Aleatório com memória curta
 public class Errante : MonoBehaviour
 {
     
