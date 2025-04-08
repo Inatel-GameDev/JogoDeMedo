@@ -9,7 +9,8 @@ using UnityEngine;
 public class Jogador : MaquinaDeEstado
 {
 
-    [SerializeField] public JogadorAndando EstadoAndando;
+    [SerializeField] public Estado EstadoAndando;
+    [SerializeField] public Estado EstadoParalisado;
     // MiniTask 
     // Parado
     // RagDoll 
@@ -63,9 +64,7 @@ public class Jogador : MaquinaDeEstado
     public void machucaJogador(float dano){
         vida -= dano;
         if(vida <= 0){
-            textoVida.SetText(vida + "/" + vidaMaxima);
-            soundPlayer.playSound(SoundsJogador.instance.morte);
-            Debug.Log("Morreu");
+            Morte();
         } else {            
             textoVida.SetText(vida + "/" + vidaMaxima);
             soundPlayer.playSound(SoundsJogador.instance.atingido);
@@ -88,11 +87,18 @@ public class Jogador : MaquinaDeEstado
         yield return new WaitForSeconds(cooldownVeneno);
         if (resistencia >= 100)
         {
-            Debug.Log("Morreu");
+            Morte();
         }
         else
         {
             StartCoroutine(Envenenado());    
         }
+    }
+
+    public void Morte()
+    {
+        textoVida.SetText(vida + "/" + vidaMaxima);
+        soundPlayer.playSound(SoundsJogador.instance.morte);
+        Debug.Log("Morreu");
     }
 }

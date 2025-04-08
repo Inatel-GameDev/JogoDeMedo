@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,6 +11,8 @@ public class Russo : Monstro
     [SerializeField] public Jogador jogadorAlvo;
     [SerializeField] private float distanciaMinima;
     [SerializeField] private float dist;
+    [SerializeField] private float tempoTiro = 5f;
+    public bool pausa = false;
     
     private void Start()
     {
@@ -50,11 +53,24 @@ public class Russo : Monstro
     
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Player") && EstadoAtual == estadoPerto){
+        if(other.gameObject.CompareTag("Player") && EstadoAtual == estadoPerto && !pausa){
             {
                 jogadorAlvo = other.gameObject.GetComponent<Jogador>();
                 MudarEstado(estadoAtacando);
             }
         }        
+    }
+
+    public void Pausa()
+    {
+        StartCoroutine(corrotinaPausa());
+    }
+
+    private IEnumerator corrotinaPausa()
+    {
+        pausa = true;
+        yield return new WaitForSeconds(tempoTiro);
+        MudarEstado(estadoPerseguindo);
+        pausa = false;
     }
 }

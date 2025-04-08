@@ -22,6 +22,11 @@ public abstract class Monstro : MaquinaDeEstado
             return;
         
         vida -= danoExterno;
-        
+    }
+
+    public void Morte()
+    {
+        Debug.Log("Morte Monstro");
+        Destroy(this.gameObject);
     }
 }

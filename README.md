@@ -77,7 +77,9 @@ Russo:
 * Estado Jogando
     * Se encostar em um jogador, abre uma hud para jogarem roleta russa
     * Quem está fora não consegue interagir com eles
-    * O jogo é um simples vai e volta até um deles morrer ?
+    * O jogo é um simples vai e volta até um deles morrer
+    * A cada rodada, as chances de tiram aumentam até ser certeza de morte
+    * Na rodada que nenhum morrer, o monstro pausa por alguns segundos até voltar para o estado de perseguindo
 
 Fungo:
 * Estado vagando

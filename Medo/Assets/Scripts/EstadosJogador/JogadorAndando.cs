@@ -42,7 +42,7 @@ public class JogadorAndando : Estado
             jogador.rb.linearDamping = 0;
         if (jogador.rb.linearVelocity.x != 0 || jogador.rb.linearVelocity.z != 0){
             if(!audioAndar.isPlaying)
-            audioAndar.Play();
+                audioAndar.Play();
         }
         else {
             audioAndar.Pause();
@@ -65,6 +65,8 @@ public class JogadorAndando : Estado
         verticalInput = Input.GetAxis("Vertical");
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
+        
+        
         if (Input.GetKey(KeyCode.Space) && readyToJump && grounded)
         {
             readyToJump = false;
@@ -82,6 +84,9 @@ public class JogadorAndando : Estado
         }
         else if (!grounded)
             jogador.rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultipler, ForceMode.Force);
+        
+        if(transform.position.y <= -10 )
+            jogador.Morte();
     }
 
     private void SpeedControl()
