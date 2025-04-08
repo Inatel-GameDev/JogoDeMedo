@@ -53,6 +53,18 @@ public class SteamLobbyManager : MonoBehaviour
         SteamFriends.GetPersonaName()
     );
 
+    // Dentro de OnLobbyCreated
+    NetworkManager.singleton.StartHost();
+
+    // adiciona player manualmente se precisar
+    if (NetworkClient.localPlayer == null)
+    {
+        NetworkConnectionToClient conn = NetworkServer.localConnection;
+        GameObject player = Instantiate(NetworkManager.singleton.playerPrefab);
+        NetworkServer.AddPlayerForConnection(conn, player);
+    }
+
+
     NetworkManager.singleton.StartHost();
 }
 
@@ -71,10 +83,10 @@ public class SteamLobbyManager : MonoBehaviour
         Uri steamUri = new Uri("steam://" + hostAddress);
         NetworkManager.singleton.StartClient(steamUri);
 
-        // Troca de UI aqui também!
         mainMenuUI.SetActive(false);
         lobbyUI.SetActive(true);
     }
+
 
     public void JoinLobby()
     {

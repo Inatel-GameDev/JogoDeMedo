@@ -29,4 +29,33 @@ public class CustomNetworkManager : NetworkManager
 
         }
     }
+
+    public override void OnServerSceneChanged(string sceneName)
+{
+    base.OnServerSceneChanged(sceneName);
+
+    if (sceneName == "Marcelo") // Troque pelo nome da fase real
+    {
+        foreach (var conn in NetworkServer.connections.Values)
+        {
+            if (conn.identity != null)
+            {
+                LobbyPlayer lobby = conn.identity.GetComponent<LobbyPlayer>();
+
+                if (lobby != null)
+                {
+                    GameObject player = Instantiate(spawnPrefabs.Find(p => p.name == "Player"));
+
+                    PlayerController controller = player.GetComponent<PlayerController>();
+                    if (controller != null)
+                        controller.SetNome(lobby.playerName);
+
+                    NetworkServer.ReplacePlayerForConnection(conn, player, ReplacePlayerOptions.KeepAuthority);
+                }
+            }
+        }
+    }
+}
+
+
 }
