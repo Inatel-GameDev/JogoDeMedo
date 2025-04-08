@@ -28,6 +28,7 @@ public class Jogador : MaquinaDeEstado
     [SerializeField] public float veneno; 
     [SerializeField] private float resistencia; 
     [SerializeField] private float cooldownVeneno = 5f; 
+    [SerializeField] private CameraPOV cameraPOV; 
 
     //public Item[] inventario;
 
@@ -66,6 +67,7 @@ public class Jogador : MaquinaDeEstado
         if(vida <= 0){
             Morte();
         } else {            
+            cameraPOV.TriggerDamageEffect();
             textoVida.SetText(vida + "/" + vidaMaxima);
             soundPlayer.playSound(SoundsJogador.instance.atingido);
             Debug.Log("Machucado");            
