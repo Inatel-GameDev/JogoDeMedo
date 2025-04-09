@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 // Classe principal de jogador
@@ -28,11 +29,13 @@ public class Jogador : MaquinaDeEstado
     [SerializeField] public float veneno; 
     [SerializeField] private float resistencia; 
     [SerializeField] private float cooldownVeneno = 5f; 
+    [Header("HUD")]
     [SerializeField] private CameraPOV cameraPOV;
     [SerializeField] private RectTransform celular;
     [SerializeField] private bool celularPraCima = false;
     [SerializeField] private bool movendoCelular = false;
-    
+    [SerializeField] private GameObject textoVeneno;
+    [SerializeField] private Image fillImage;
 
     //public Item[] inventario;
 
@@ -41,7 +44,7 @@ public class Jogador : MaquinaDeEstado
     {
         rb = GetComponent<Rigidbody>();
         EstadoAtual = EstadoAndando;
-        textoVida.SetText(vida + "/" + vidaMaxima);
+        textoVida.SetText("Saúde: " + vidaMaxima);
         EstadoAtual.Enter();
         
     }
@@ -78,9 +81,22 @@ public class Jogador : MaquinaDeEstado
         }
     }
 
+    private void CriaBarraVeneno()
+    {
+        textoVeneno.SetActive(true);
+        fillImage.gameObject.SetActive(true);
+        // fillImage.type = Image.Type.Filled;
+        // fillImage.fillMethod = Image.FillMethod.Horizontal;
+        // fillImage.color = new Color(1, 200, 1, 0);
+    }
+    
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("BombaFungo")){
+            if (resistencia == 0)
+            {
+                CriaBarraVeneno();
+            }
             Destroy(other.gameObject);
             veneno += 1; 
             StartCoroutine(Envenenado());
@@ -90,6 +106,8 @@ public class Jogador : MaquinaDeEstado
     public IEnumerator Envenenado()
     {
         resistencia += veneno;
+        fillImage.fillAmount = resistencia / 100;
+        
         yield return new WaitForSeconds(cooldownVeneno);
         if (resistencia >= 100)
         {
