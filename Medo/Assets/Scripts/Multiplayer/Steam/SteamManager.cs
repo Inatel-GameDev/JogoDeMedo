@@ -179,4 +179,30 @@ public class SteamManager : MonoBehaviour {
 		}
 	}
 #endif // !DISABLESTEAMWORKS
+
+    public void QuitGame()
+    {
+        Debug.Log("Fechando o jogo...");
+    #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+    #else
+        Application.Quit();
+    #endif
+    }
+
+    private void OnApplicationQuit()
+    {
+        Debug.Log("[Steam] Aplicação encerrando...");
+
+        if (SteamManager.Initialized)
+        {
+            SteamAPI.Shutdown();
+            Debug.Log("[Steam] SteamAPI finalizado com sucesso.");
+        }
+
+        System.Diagnostics.Process.GetCurrentProcess().Kill();
+        QuitGame();
+    }
+
+
 }
