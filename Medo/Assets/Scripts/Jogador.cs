@@ -28,7 +28,11 @@ public class Jogador : MaquinaDeEstado
     [SerializeField] public float veneno; 
     [SerializeField] private float resistencia; 
     [SerializeField] private float cooldownVeneno = 5f; 
-    [SerializeField] private CameraPOV cameraPOV; 
+    [SerializeField] private CameraPOV cameraPOV;
+    [SerializeField] private RectTransform celular;
+    [SerializeField] private bool celularPraCima = false;
+    [SerializeField] private bool movendoCelular = false;
+    
 
     //public Item[] inventario;
 
@@ -68,7 +72,7 @@ public class Jogador : MaquinaDeEstado
             Morte();
         } else {            
             cameraPOV.TriggerDamageEffect();
-            textoVida.SetText(vida + "/" + vidaMaxima);
+            textoVida.SetText("Saúde: " + vida);
             soundPlayer.playSound(SoundsJogador.instance.atingido);
             Debug.Log("Machucado");            
         }
@@ -99,8 +103,49 @@ public class Jogador : MaquinaDeEstado
 
     public void Morte()
     {
-        textoVida.SetText(vida + "/" + vidaMaxima);
+        textoVida.SetText("Saúde: " + vidaMaxima);
+        vida = vidaMaxima;
         soundPlayer.playSound(SoundsJogador.instance.morte);
         Debug.Log("Morreu");
     }
+
+    public void MoveCelular()
+    {
+        Debug.Log("Move Celular");
+        
+        if(movendoCelular)
+            return;
+        StartCoroutine(MoveCelularCorrotina());
+        
+        celularPraCima = !celularPraCima;
+    }
+
+    public IEnumerator MoveCelularCorrotina()
+    {
+        Debug.Log("Movendo Celular");
+        Vector2 target;
+        if (celularPraCima)
+        {
+            target = new Vector2(-720,-550);
+        }
+        else
+        {
+            target = new Vector2(-720,-290);
+        }
+
+        while (Vector2.Distance(celular.anchoredPosition, target) > 0.1f)
+        {
+            movendoCelular = true;
+            celular.anchoredPosition = Vector2.Lerp(
+                celular.anchoredPosition,
+                target,
+                0.5f * Time.deltaTime
+            );
+        }
+      
+        movendoCelular = false;
+        yield return new WaitForSeconds(0.1f);
+    }
+    
+  
 }
