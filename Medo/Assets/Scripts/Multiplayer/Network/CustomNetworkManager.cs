@@ -4,6 +4,22 @@ using UnityEngine.SceneManagement;
 
 public class CustomNetworkManager : NetworkManager
 {
+
+    private void OnApplicationQuit()
+    {
+        if (NetworkServer.active)
+        {
+            Debug.Log("[Mirror] Encerrando como Host...");
+            StopHost();
+        }
+        else if (NetworkClient.isConnected)
+        {
+            Debug.Log("[Mirror] Encerrando como Client...");
+            StopClient();
+        }
+    }
+
+
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
         // Estamos na cena de lobby, instanciamos LobbyPlayer

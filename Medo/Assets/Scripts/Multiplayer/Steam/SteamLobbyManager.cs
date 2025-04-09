@@ -80,11 +80,17 @@ public class SteamLobbyManager : MonoBehaviour
     private void OnLobbyEntered(LobbyEnter_t callback)
     {
         CSteamID lobbyId = new CSteamID(callback.m_ulSteamIDLobby);
-        Debug.Log($"[Steam] Entrou no lobby {lobbyId} | Owner: {SteamMatchmaking.GetLobbyOwner(lobbyId)}");
+        CSteamID ownerId = SteamMatchmaking.GetLobbyOwner(lobbyId);
+        CSteamID myId = SteamUser.GetSteamID();
 
-        if (NetworkServer.active) return; // host não precisa conectar como client
+        Debug.Log($"[Steam] Entrou no lobby {lobbyId}");
+        Debug.Log($"[Steam] Host SteamID: {ownerId}");
+        Debug.Log($"[Steam] Meu SteamID: {myId}");
 
-        string hostAddress = SteamMatchmaking.GetLobbyOwner(lobbyId).ToString();
+        // Se for o host, não conecta como cliente
+        if (NetworkServer.active) return;
+
+        string hostAddress = ownerId.ToString();
         Uri steamUri = new Uri("steam://" + hostAddress);
         NetworkManager.singleton.StartClient(steamUri);
 
@@ -92,10 +98,16 @@ public class SteamLobbyManager : MonoBehaviour
         lobbyUI.SetActive(true);
     }
 
+
     public void InviteFriends()
     {
-        if (SteamManager.Initialized)
-            SteamFriends.ActivateGameOverlayInviteDialog(currentLobbyID);
+        if (currentLobbyID == CSteamID.Nil)
+        {
+            Debug.LogError("[Steam] Nenhum lobby ativo para convidar amigos.");
+            return;
+        }
+
+        SteamFriends.ActivateGameOverlayInviteDialog(currentLobbyID);
     }
 
 
@@ -103,4 +115,24 @@ public class SteamLobbyManager : MonoBehaviour
     {
         SteamFriends.ActivateGameOverlay("Friends");
     }
+
+    private void OnApplicationQuit()
+    {
+        Debug.Log("[SteamLobby] Saindo do jogo, limpando lobby...");
+
+        // Exemplo: talvez sair do lobby?
+        if (SteamManager.Initialized)
+        {
+            SteamMatchmaking.LeaveLobby(new CSteamID(/* ID atual do lobby */));
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (lobbyCreated != null) lobbyCreated.Dispose();
+        if (joinRequest != null) joinRequest.Dispose();
+        if (lobbyEntered != null) lobbyEntered.Dispose();
+    }
+
+
 }
