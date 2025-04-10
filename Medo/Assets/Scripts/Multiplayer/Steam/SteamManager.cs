@@ -191,18 +191,36 @@ public class SteamManager : MonoBehaviour {
     }
 
     private void OnApplicationQuit()
-    {
-        Debug.Log("[Steam] Aplicação encerrando...");
+	{
+		Debug.Log("[Steam] Aplicação encerrando...");
 
-        if (SteamManager.Initialized)
-        {
-            SteamAPI.Shutdown();
-            Debug.Log("[Steam] SteamAPI finalizado com sucesso.");
-        }
+	#if !UNITY_EDITOR
+		// Evita que feche a Unity por completo durante testes
+		System.Diagnostics.Process.GetCurrentProcess().Kill();
+	#endif
 
-        System.Diagnostics.Process.GetCurrentProcess().Kill();
-        QuitGame();
-    }
+		if (SteamManager.Initialized)
+		{
+			try
+			{
+				// Sai do lobby antes de desligar o Steam
+				if (SteamLobbyManager.HasActiveLobby)
+				{
+					Debug.Log("[Steam] Saindo do lobby antes de desligar a API...");
+					SteamMatchmaking.LeaveLobby(SteamLobbyManager.CurrentLobbyID);
+				}
+			}
+			catch (System.Exception e)
+			{
+				Debug.LogWarning("[Steam] Erro ao sair do lobby: " + e.Message);
+			}
+
+			SteamAPI.Shutdown();
+			Debug.Log("[Steam] SteamAPI finalizado com sucesso.");
+		}
+	}
+
+
 
 
 }

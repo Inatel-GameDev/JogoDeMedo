@@ -19,6 +19,8 @@ public class SteamLobbyManager : MonoBehaviour
     private Callback<GameLobbyJoinRequested_t> joinRequest;
     private Callback<LobbyEnter_t> lobbyEntered;
     private CSteamID currentLobbyID; // Armazena o lobby atual pra convidar amigos
+    public static CSteamID CurrentLobbyID { get; private set; } = CSteamID.Nil;
+    public static bool HasActiveLobby => CurrentLobbyID != CSteamID.Nil;
 
     private void Start()
     {
@@ -50,6 +52,7 @@ public class SteamLobbyManager : MonoBehaviour
 
         currentLobbyID = new CSteamID(callback.m_ulSteamIDLobby);
         Debug.Log($"[Steam] Lobby criado com sucesso! ID: {currentLobbyID}");
+        SteamLobbyManager.CurrentLobbyID = currentLobbyID;
 
         SteamMatchmaking.SetLobbyData(
             currentLobbyID,
