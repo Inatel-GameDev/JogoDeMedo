@@ -78,25 +78,35 @@ public class SteamLobbyManager : MonoBehaviour
     }
 
     private void OnLobbyEntered(LobbyEnter_t callback)
+{
+    CSteamID lobbyId = new CSteamID(callback.m_ulSteamIDLobby);
+    CSteamID ownerId = SteamMatchmaking.GetLobbyOwner(lobbyId);
+    CSteamID myId = SteamUser.GetSteamID();
+
+    Debug.Log($"[Steam] Entrou no lobby {lobbyId}");
+    Debug.Log($"[Steam] Host SteamID: {ownerId}");
+    Debug.Log($"[Steam] Meu SteamID: {myId}");
+
+    // Se for o host, não conecta como cliente
+    if (myId == ownerId)
     {
-        CSteamID lobbyId = new CSteamID(callback.m_ulSteamIDLobby);
-        CSteamID ownerId = SteamMatchmaking.GetLobbyOwner(lobbyId);
-        CSteamID myId = SteamUser.GetSteamID();
-
-        Debug.Log($"[Steam] Entrou no lobby {lobbyId}");
-        Debug.Log($"[Steam] Host SteamID: {ownerId}");
-        Debug.Log($"[Steam] Meu SteamID: {myId}");
-
-        // Se for o host, não conecta como cliente
-        if (NetworkServer.active) return;
-
-        string hostAddress = ownerId.ToString();
-        Uri steamUri = new Uri("steam://" + hostAddress);
-        NetworkManager.singleton.StartClient(steamUri);
-
-        mainMenuUI.SetActive(false);
-        lobbyUI.SetActive(true);
+        Debug.Log("[Steam] Eu sou o host, não conectando como cliente.");
+        return;
     }
+
+    string hostAddress = ownerId.ToString();
+    Uri steamUri = new Uri("steam://" + hostAddress);
+    NetworkManager.singleton.StartClient(steamUri);
+    NetworkClient.OnConnectedEvent += () =>
+    {
+        Debug.Log("[Steam] Cliente conectado - enviando Ready e AddPlayer.");
+        NetworkClient.Ready();
+        NetworkClient.AddPlayer();
+    };
+    mainMenuUI.SetActive(false);
+    lobbyUI.SetActive(true);
+}
+
 
 
     public void InviteFriends()
@@ -106,7 +116,7 @@ public class SteamLobbyManager : MonoBehaviour
             Debug.LogError("[Steam] Nenhum lobby ativo para convidar amigos.");
             return;
         }
-
+        Debug.Log( $"currentLobbyID: {currentLobbyID}");
         SteamFriends.ActivateGameOverlayInviteDialog(currentLobbyID);
     }
 
