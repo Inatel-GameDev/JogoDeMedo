@@ -9,6 +9,7 @@ public class LobbyPlayer : NetworkBehaviour
     public string playerName;
     public Camera playerCamera;
 
+
     public override void OnStartServer()
     {
         base.OnStartServer();

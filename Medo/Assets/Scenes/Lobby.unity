@@ -1190,7 +1190,7 @@ MonoBehaviour:
   sendRate: 60
   offlineScene: Assets/Scenes/Lobby.unity
   onlineScene: 
-  offlineSceneLoadDelay: 0
+  offlineSceneLoadDelay: 0.05
   transport: {fileID: 1059560496}
   networkAddress: localhost
   maxConnections: 100
@@ -1202,6 +1202,7 @@ MonoBehaviour:
   playerSpawnMethod: 0
   spawnPrefabs:
   - {fileID: 1671763474449547613, guid: ca51a11c3e9dc0a4ebbb5a280ede1404, type: 3}
+  - {fileID: 0}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
