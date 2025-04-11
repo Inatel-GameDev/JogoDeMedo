@@ -7,23 +7,33 @@ public class LobbyPlayer : NetworkBehaviour
 {
     [SyncVar]
     public string playerName;
+
     public Camera playerCamera;
 
-    public override void OnStartServer()
+    public override void OnStartAuthority()
     {
-        base.OnStartServer();
+        base.OnStartAuthority();
+        DontDestroyOnLoad(gameObject);
 
+        // Ativa câmera se necessário
+        if (playerCamera != null)
+            playerCamera.gameObject.SetActive(true);
+
+        // Envia o nome pro servidor
         if (SteamManager.Initialized)
         {
-            playerName = SteamFriends.GetPersonaName();
-        }
-        else
-        {
-            playerName = "Player " + netId;
+            string nome = SteamFriends.GetPersonaName();
+            CmdSetPlayerName(nome);
         }
     }
 
-    
+    [Command]
+    void CmdSetPlayerName(string nome)
+    {
+        playerName = nome;
+        Debug.Log("[Mirror] Nome recebido no servidor: " + playerName);
+    }
+
     public override void OnStartClient()
     {
         base.OnStartClient();
@@ -41,17 +51,9 @@ public class LobbyPlayer : NetworkBehaviour
         LobbyUIManager.Instance.AddPlayerToList(this);
     }
 
-
     public override void OnStopClient()
     {
         base.OnStopClient();
         LobbyUIManager.Instance.RemovePlayerFromList(this);
-    }
-    public override void OnStartAuthority()
-    {
-        DontDestroyOnLoad(gameObject); // Persiste até trocar pelo player real
-        base.OnStartAuthority();
-        if (playerCamera != null)
-            playerCamera.gameObject.SetActive(true);
     }
 }

@@ -28,7 +28,8 @@ public class JogadorAndando : Estado
     }
 
     public override void Do()
-    {
+    {    
+
     }
 
 
@@ -61,11 +62,14 @@ public class JogadorAndando : Estado
 
     private void MyInput()
     {
+        // if (Input.GetKeyDown(KeyCode.T))
+        // {
+        //     jogador.MoveCelular();
+        // }
+        
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-
-        
         
         if (Input.GetKey(KeyCode.Space) && readyToJump && grounded)
         {

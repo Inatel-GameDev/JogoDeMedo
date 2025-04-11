@@ -4,58 +4,80 @@ using UnityEngine.SceneManagement;
 
 public class CustomNetworkManager : NetworkManager
 {
+    public override void OnApplicationQuit()
+    {
+        if (NetworkServer.active)
+        {
+            Debug.Log("[Mirror] Encerrando como Host...");
+            StopHost();
+        }
+        else if (NetworkClient.isConnected)
+        {
+            Debug.Log("[Mirror] Encerrando como Client...");
+            StopClient();
+        }
+    }
+
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
-        // Estamos na cena de lobby, instanciamos LobbyPlayer
-        if (SceneManager.GetActiveScene().name == offlineScene)
+        Debug.Log("[Mirror] OnServerAddPlayer chamado. Cena atual: " + SceneManager.GetActiveScene().name);
+        string scene = SceneManager.GetActiveScene().name;
+
+        if (scene.Contains("Lobby"))
         {
             GameObject lobbyPlayer = Instantiate(playerPrefab);
+            Debug.Log("[Mirror] Instanciando LobbyPlayer e adicionando ao servidor...");
             NetworkServer.AddPlayerForConnection(conn, lobbyPlayer);
         }
-        // Estamos na cena do jogo (fase real)
         else
         {
-            GameObject gamePlayer = Instantiate(spawnPrefabs.Find(p => p.name == "Player"));
+            // Evita erro se for chamado prematuramente
+            if (conn.identity == null)
+            {
+                Debug.LogWarning("[Mirror] conn.identity está null. Provavelmente o jogador ainda não foi adicionado.");
+                return;
+            }
 
+            Debug.Log("[Mirror] Cena real, instanciando Player...");
+            GameObject gamePlayer = Instantiate(spawnPrefabs.Find(p => p.name == "Player"));
 
             LobbyPlayer lobby = conn.identity.GetComponent<LobbyPlayer>();
             PlayerController controller = gamePlayer.GetComponent<PlayerController>();
 
             if (controller != null && lobby != null)
+            {
                 controller.SetNome(lobby.playerName);
+            }
 
-            // Substitui o player do lobby pelo real
             NetworkServer.ReplacePlayerForConnection(conn, gamePlayer, ReplacePlayerOptions.KeepAuthority);
-
         }
     }
 
     public override void OnServerSceneChanged(string sceneName)
-{
-    base.OnServerSceneChanged(sceneName);
-
-    if (sceneName == "Marcelo") // Troque pelo nome da fase real
     {
-        foreach (var conn in NetworkServer.connections.Values)
+        base.OnServerSceneChanged(sceneName);
+
+        if (sceneName == "Marcelo") // Sua cena de jogo real
         {
-            if (conn.identity != null)
+            foreach (var conn in NetworkServer.connections.Values)
             {
-                LobbyPlayer lobby = conn.identity.GetComponent<LobbyPlayer>();
-
-                if (lobby != null)
+                if (conn != null && conn.identity != null)
                 {
-                    GameObject player = Instantiate(spawnPrefabs.Find(p => p.name == "Player"));
+                    LobbyPlayer lobby = conn.identity.GetComponent<LobbyPlayer>();
+                    if (lobby != null)
+                    {
+                        GameObject player = Instantiate(spawnPrefabs.Find(p => p.name == "Player"));
+                        PlayerController controller = player.GetComponent<PlayerController>();
 
-                    PlayerController controller = player.GetComponent<PlayerController>();
-                    if (controller != null)
-                        controller.SetNome(lobby.playerName);
+                        if (controller != null)
+                        {
+                            controller.SetNome(lobby.playerName);
+                        }
 
-                    NetworkServer.ReplacePlayerForConnection(conn, player, ReplacePlayerOptions.KeepAuthority);
+                        NetworkServer.ReplacePlayerForConnection(conn, player, ReplacePlayerOptions.KeepAuthority);
+                    }
                 }
             }
         }
     }
-}
-
-
 }

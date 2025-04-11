@@ -179,4 +179,48 @@ public class SteamManager : MonoBehaviour {
 		}
 	}
 #endif // !DISABLESTEAMWORKS
+
+    public void QuitGame()
+    {
+        Debug.Log("Fechando o jogo...");
+    #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+    #else
+        Application.Quit();
+    #endif
+    }
+
+    private void OnApplicationQuit()
+	{
+		Debug.Log("[Steam] Aplicação encerrando...");
+
+	#if !UNITY_EDITOR
+		// Evita que feche a Unity por completo durante testes
+		System.Diagnostics.Process.GetCurrentProcess().Kill();
+	#endif
+
+		if (SteamManager.Initialized)
+		{
+			try
+			{
+				// Sai do lobby antes de desligar o Steam
+				if (SteamLobbyManager.HasActiveLobby)
+				{
+					Debug.Log("[Steam] Saindo do lobby antes de desligar a API...");
+					SteamMatchmaking.LeaveLobby(SteamLobbyManager.CurrentLobbyID);
+				}
+			}
+			catch (System.Exception e)
+			{
+				Debug.LogWarning("[Steam] Erro ao sair do lobby: " + e.Message);
+			}
+
+			SteamAPI.Shutdown();
+			Debug.Log("[Steam] SteamAPI finalizado com sucesso.");
+		}
+	}
+
+
+
+
 }
