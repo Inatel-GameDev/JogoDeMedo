@@ -1,8 +1,8 @@
 Vibe jogo de medo medo muito medo tipo lethal company 
 
 Responsabilidades: 
-* Dju: Player e Monstros
-* Alves: Itens e Mapa 
+* Dju: Player, Monstros e Itens
+* Alves: Mapa 
 * Marcelo: Procedural e Online 
 
 # Resumo/Core 
@@ -24,16 +24,25 @@ Responsabilidades:
 ## Direção de Arte e Som
 Modelos Low-Poly e com poucos detalhes. 
 #### Interfaces
-HUD 
-Celular 
+##### HUD: 
+Informações do jogador são mostradas em um celular que sobe e desce. 
+Nele aparece a vida e as condições atuais do jogador como veneno. 
+Os itens ficam no meio inferior da tela, mostrando quadrados vazios. 
+Para interagir com objetos e itens, aparece um escrito na tela logo abaixo deles.
 #### Monstros
+Russo: Homem alto e esquisito, uma mão fica com a pistola e a outra fica 
+Lerdo: 
+Fungo: 
 #### Ambiente
+Naves e bases abandonadas, a maioria feita de metal e com aspecto velho.
 #### Personagens
+
 
 ## Mecânicas 
 #### Personagens 
 * Movimentação
 * Câmera primeira pessoa
+* Agachar
 * Movimentação padrão  
     * Corrida limitada com stamina
 * Pode comer para recuperar vida 
@@ -63,9 +72,7 @@ Celular
 
 #### Monstros
 Cada monstro tem um comportamento específico 
-* Um rápido que precisa te achar  
 * Enderman da vida 
-* Monstro roleta russa   
 
 Russo: 
 * Estado Perseguindo 
@@ -91,7 +98,7 @@ Fungo:
 
 Lerdo: 
 * Estado Seguindo 
-    * Se move lentamente até o jogador
+    * Se move (lentamente?) até o jogador
     * Sabe a sua posição
 * Estado atacando 
     * quando chega perto o suficiente dispara um ataque em área 
