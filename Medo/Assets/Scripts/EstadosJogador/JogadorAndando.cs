@@ -67,6 +67,11 @@ public class JogadorAndando : Estado
         //     jogador.MoveCelular();
         // }
         
+        if (Input.GetKeyDown(KeyCode.E) && jogador.itemPerto != null)
+        {
+            jogador.AdicionarItem();
+        }
+
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;

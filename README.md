@@ -153,14 +153,20 @@ Objeto jogador:
   * Cada Estado é um filho e possui o código e os componentes específicos dele
   * Orientation e Camera Pos ⇾ Navegação e Primeira Pessoa
   * Corpo  ⇾  Mesh Renderer do modelo 
+    * Tag = Player
   * Sounds ⇾ Um objeto para armazenar em lista todos os sons disponíveis para o jogador  
 
 Objeto Monstro Base: 
+* Tag = Monstro
 * RigidBody, NavMeshAgent, SoundPlayer,AudioSource
 * Filhos:
   * Cada Estado é um filho e possui o código e os componentes específicos dele
   * Corpo  ⇾  Mesh Renderer do modelo
   * Sounds ⇾ Um objeto para armazenar em lista todos os sons disponíveis para o jogador
+
+
+Objeto Item: 
+* Tag = Item
 
 UML: 
 https://lucid.app/lucidchart/467e5d9c-0615-407e-b290-0dc68f0b5770/edit?viewport_loc=-736%2C-836%2C3758%2C1590%2C0_0&invitationId=inv_a7b80d4c-90e6-4854-9ec1-d8450a940b6d

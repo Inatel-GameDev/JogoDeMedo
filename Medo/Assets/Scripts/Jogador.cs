@@ -9,11 +9,12 @@ using UnityEngine.UI;
 // Controlar a troca entre estados e possui as variaveis que precisam ser compartilhadas entre estados
 public class Jogador : MaquinaDeEstado
 {
+// Separar em mais 2 classes pelo menos 
+
 
     [SerializeField] public Estado EstadoAndando;
     [SerializeField] public Estado EstadoParalisado;
-    // MiniTask 
-    // Parado
+    // MiniTask     
     // RagDoll 
 
  
@@ -37,7 +38,8 @@ public class Jogador : MaquinaDeEstado
     [SerializeField] private GameObject textoVeneno;
     [SerializeField] private Image fillImage;
 
-    //public Item[] inventario;
+    public Item[] Inventario = new Item[4];
+    public Item itemPerto ;
 
 
     private void Start()
@@ -100,8 +102,25 @@ public class Jogador : MaquinaDeEstado
             Destroy(other.gameObject);
             veneno += 1; 
             StartCoroutine(Envenenado());
-        }
+        }                
     }
+
+    public void AdicionarItem(){
+        
+        // acho que tem q trocar de item pra gameobject 
+        for (int i = 0; i < Inventario.Length; i++){
+            
+            if(Inventario[i] == null){
+                Inventario[i] = itemPerto;                
+                Destroy(itemPerto.gameObject);
+                // Atualizar tela 
+                break;
+            }
+            Debug.Log(Inventario);
+            Debug.Log(Inventario[i]);
+        }                
+    }
+
 
     public IEnumerator Envenenado()
     {

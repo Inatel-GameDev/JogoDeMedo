@@ -6,6 +6,8 @@ TagManager:
   tags:
   - PlayerBody
   - BombaFungo
+  - Monstro
+  - Item
   layers:
   - Default
   - TransparentFX
