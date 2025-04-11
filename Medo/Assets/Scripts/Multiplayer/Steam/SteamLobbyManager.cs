@@ -1,59 +1,144 @@
 using Mirror;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Steamworks;
+using System;
 
-public class LobbyPlayer : NetworkBehaviour
+public class SteamLobbyManager : MonoBehaviour
 {
-    [SyncVar]
-    public string playerName;
+    public GameObject mainMenuUI;
+    public GameObject lobbyUI;
 
-    public Camera playerCamera;
+    private const string LOBBY_NAME_KEY = "name";
+    private CSteamID currentLobbyID;
+    public static CSteamID CurrentLobbyID { get; private set; } = CSteamID.Nil;
+    public static bool HasActiveLobby => CurrentLobbyID != CSteamID.Nil;
 
-    public override void OnStartAuthority()
+    private Callback<LobbyCreated_t> lobbyCreated;
+    private Callback<GameLobbyJoinRequested_t> joinRequest;
+    private Callback<LobbyEnter_t> lobbyEntered;
+
+    private void Start()
     {
-        base.OnStartAuthority();
-        DontDestroyOnLoad(gameObject);
+        if (!SteamManager.Initialized) return;
 
-        // Ativa câmera se necessário
-        if (playerCamera != null)
-            playerCamera.gameObject.SetActive(true);
+        lobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
+        joinRequest = Callback<GameLobbyJoinRequested_t>.Create(OnJoinRequest);
+        lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
+    }
 
-        // Envia o nome pro servidor
-        if (SteamManager.Initialized)
+    public void HostLobby()
+    {
+        SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, 4);
+
+        mainMenuUI.SetActive(false);
+        lobbyUI.SetActive(true);
+    }
+
+    private void OnLobbyCreated(LobbyCreated_t callback)
+    {
+        if (callback.m_eResult != EResult.k_EResultOK)
         {
-            string nome = SteamFriends.GetPersonaName();
-            CmdSetPlayerName(nome);
+            Debug.LogError("[Steam] Falha ao criar o lobby Steam.");
+            return;
+        }
+
+        currentLobbyID = new CSteamID(callback.m_ulSteamIDLobby);
+        CurrentLobbyID = currentLobbyID;
+
+        Debug.Log($"[Steam] Lobby criado com sucesso! ID: {currentLobbyID}");
+
+        SteamMatchmaking.SetLobbyData(currentLobbyID, LOBBY_NAME_KEY, SteamFriends.GetPersonaName());
+
+        // Usa seu CustomNetworkManager
+        CustomNetworkManager manager = (CustomNetworkManager)NetworkManager.singleton;
+
+        manager.StartHost();
+
+        // Marca o cliente como pronto
+        NetworkClient.Ready();
+
+        // Se necessário, adiciona o player (só se AutoCreatePlayer estiver desativado)
+        if (!NetworkClient.localPlayer)
+        {
+            NetworkClient.AddPlayer();
         }
     }
 
-    [Command]
-    void CmdSetPlayerName(string nome)
+    private void OnJoinRequest(GameLobbyJoinRequested_t callback)
     {
-        playerName = nome;
-        Debug.Log("[Mirror] Nome recebido no servidor: " + playerName);
+        SteamMatchmaking.JoinLobby(callback.m_steamIDLobby);
     }
 
-    public override void OnStartClient()
+    private void OnLobbyEntered(LobbyEnter_t callback)
     {
-        base.OnStartClient();
-        StartCoroutine(WaitForName());
-        Debug.Log("LobbyPlayer entrou no cliente: " + playerName);
+        CSteamID lobbyId = new CSteamID(callback.m_ulSteamIDLobby);
+        CSteamID ownerId = SteamMatchmaking.GetLobbyOwner(lobbyId);
+        CSteamID myId = SteamUser.GetSteamID();
+
+        Debug.Log($"[Steam] Entrou no lobby {lobbyId}");
+        Debug.Log($"[Steam] Host SteamID: {ownerId}");
+        Debug.Log($"[Steam] Meu SteamID: {myId}");
+
+        if (myId == ownerId)
+        {
+            Debug.Log("[Steam] Eu sou o host, não conectando como cliente.");
+            return;
+        }
+
+        // Cliente conecta no host
+        Uri steamUri = new Uri("steam://" + ownerId);
+        NetworkManager.singleton.StartClient(steamUri);
+
+        // Quando conectar no host, fica pronto e adiciona player
+        NetworkClient.OnConnectedEvent += () =>
+        {
+            Debug.Log("[Steam] Cliente conectado - enviando Ready e AddPlayer.");
+
+            NetworkClient.Ready();
+
+            if (!NetworkClient.localPlayer)
+            {
+                NetworkClient.AddPlayer();
+            }
+        };
+
+        mainMenuUI.SetActive(false);
+        lobbyUI.SetActive(true);
     }
 
-    private System.Collections.IEnumerator WaitForName()
+    public void InviteFriends()
     {
-        while (string.IsNullOrEmpty(playerName))
-            yield return null;
+        if (CurrentLobbyID == CSteamID.Nil)
+        {
+            Debug.LogError("[Steam] Nenhum lobby ativo para convidar amigos.");
+            return;
+        }
 
-        Debug.Log("Adicionando player com nome: " + playerName);
-        Debug.Log("UI Manager: " + LobbyUIManager.Instance);
-        LobbyUIManager.Instance.AddPlayerToList(this);
+        Debug.Log($"[Steam] currentLobbyID: {CurrentLobbyID}");
+        SteamFriends.ActivateGameOverlayInviteDialog(CurrentLobbyID);
     }
 
-    public override void OnStopClient()
+    public void JoinLobby()
     {
-        base.OnStopClient();
-        LobbyUIManager.Instance.RemovePlayerFromList(this);
+        SteamFriends.ActivateGameOverlay("Friends");
+    }
+
+    private void OnApplicationQuit()
+    {
+        Debug.Log("[SteamLobby] Saindo do jogo, limpando lobby...");
+
+        if (SteamManager.Initialized && SteamLobbyManager.HasActiveLobby)
+        {
+            Debug.Log("[Steam] Saindo do lobby antes de desligar a API...");
+            SteamMatchmaking.LeaveLobby(SteamLobbyManager.CurrentLobbyID);
+        }
+    }
+
+
+    private void OnDestroy()
+    {
+        lobbyCreated?.Dispose();
+        joinRequest?.Dispose();
+        lobbyEntered?.Dispose();
     }
 }
