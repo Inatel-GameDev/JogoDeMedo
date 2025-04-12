@@ -24,12 +24,15 @@ public class Jogador : MaquinaDeEstado
     [SerializeField] private float vida;
     [SerializeField] private float vidaMaxima;
     [SerializeField] private float velocidade;
-    [SerializeField] private float capacidade;
+    [SerializeField] public int capacidade;
+    
     [SerializeField] private TMP_Text textoVida;
     [SerializeField] public SoundPlayer soundPlayer;
     [SerializeField] public float veneno; 
     [SerializeField] private float resistencia; 
     [SerializeField] private float cooldownVeneno = 5f; 
+    
+    
     [Header("HUD")]
     [SerializeField] private CameraPOV cameraPOV;
     [SerializeField] private RectTransform celular;
@@ -38,9 +41,8 @@ public class Jogador : MaquinaDeEstado
     [SerializeField] private GameObject textoVeneno;
     [SerializeField] private Image fillImage;
 
-    public Item[] Inventario = new Item[4];
-    public Item itemPerto ;
-
+    
+    [SerializeField] public Inventario inventario;
 
     private void Start()
     {
@@ -104,24 +106,7 @@ public class Jogador : MaquinaDeEstado
             StartCoroutine(Envenenado());
         }                
     }
-
-    public void AdicionarItem(){
-        
-        // acho que tem q trocar de item pra gameobject 
-        for (int i = 0; i < Inventario.Length; i++){
-            
-            if(Inventario[i] == null){
-                Inventario[i] = itemPerto;                
-                Destroy(itemPerto.gameObject);
-                // Atualizar tela 
-                break;
-            }
-            Debug.Log(Inventario);
-            Debug.Log(Inventario[i]);
-        }                
-    }
-
-
+    
     public IEnumerator Envenenado()
     {
         resistencia += veneno;
