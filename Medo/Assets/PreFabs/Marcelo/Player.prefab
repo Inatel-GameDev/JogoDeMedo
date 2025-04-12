@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 8430853443769992555}
   - component: {fileID: 2328394609824383316}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: PlayerNameText (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -379,6 +379,7 @@ MonoBehaviour:
   walkSpeed: 5
   gravity: -9.81
   jumpHeight: 2
+  playerNameText: {fileID: 2328394609824383316}
   groundCheck: {fileID: 7370754160984226918}
   groundDistance: 0.2
   groundMask:

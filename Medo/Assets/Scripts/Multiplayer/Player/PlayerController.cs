@@ -1,5 +1,6 @@
-using UnityEngine;
 using Mirror;
+using UnityEngine;
+using TMPro;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : NetworkBehaviour
@@ -8,7 +9,11 @@ public class PlayerController : NetworkBehaviour
     public float walkSpeed = 5f;
     public float gravity = -9.81f;
     public float jumpHeight = 2f;
-    string playerName = "Player";
+
+    [SyncVar(hook = nameof(OnPlayerNameChanged))]
+    private string playerName = "Player";
+
+    public TextMeshProUGUI playerNameText;
     private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
@@ -20,7 +25,6 @@ public class PlayerController : NetworkBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-
         if (!isLocalPlayer && cameraTransform != null)
             cameraTransform.gameObject.SetActive(false);
     }
@@ -53,14 +57,12 @@ public class PlayerController : NetworkBehaviour
         controller.Move(velocity * Time.deltaTime);
     }
 
-    // Envia a posição atual ao servidor
     [Command]
     void CmdSendPosition(Vector3 pos)
     {
         RpcUpdatePosition(pos);
     }
 
-    // Replica a posição pros outros jogadores
     [ClientRpc]
     void RpcUpdatePosition(Vector3 pos)
     {
@@ -68,9 +70,37 @@ public class PlayerController : NetworkBehaviour
         transform.position = pos;
     }
 
-    public void SetNome(string nome)
+    // Chamada automática quando o nome muda (em todos os clientes)
+    private void OnPlayerNameChanged(string oldName, string newName)
+    {
+        PutNameOnUI();
+    }
+
+    public void SetPlayerName(string nome)
     {
         playerName = nome;
     }
 
+    public void PutNameOnUI()
+    {
+        if (playerNameText != null)
+        {
+            playerNameText.text = playerName;
+            Debug.Log("[PlayerController] Nome atualizado na UI: " + playerName);
+        }
+        else
+        {
+            Debug.LogWarning("[PlayerController] playerNameText não atribuído.");
+        }
+    }
+
+    public override void OnStartAuthority()
+    {
+        base.OnStartAuthority();
+        if (cameraTransform != null)
+        {
+            cameraTransform.gameObject.SetActive(true);
+            Debug.Log("[PlayerController] Câmera ativada.");
+        }
+    }
 }

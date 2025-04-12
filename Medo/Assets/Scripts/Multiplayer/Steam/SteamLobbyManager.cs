@@ -17,6 +17,9 @@ public class SteamLobbyManager : MonoBehaviour
     private Callback<GameLobbyJoinRequested_t> joinRequest;
     private Callback<LobbyEnter_t> lobbyEntered;
 
+    // ✅ Proteção contra AddPlayer duplo
+    private bool jaAdicionouPlayer = false;
+
     private void Start()
     {
         if (!SteamManager.Initialized) return;
@@ -49,17 +52,15 @@ public class SteamLobbyManager : MonoBehaviour
 
         SteamMatchmaking.SetLobbyData(currentLobbyID, LOBBY_NAME_KEY, SteamFriends.GetPersonaName());
 
-        // Usa seu CustomNetworkManager
         CustomNetworkManager manager = (CustomNetworkManager)NetworkManager.singleton;
-
         manager.StartHost();
 
-        // Marca o cliente como pronto
         NetworkClient.Ready();
 
-        // Se necessário, adiciona o player (só se AutoCreatePlayer estiver desativado)
-        if (!NetworkClient.localPlayer)
+        if (!jaAdicionouPlayer && !NetworkClient.localPlayer)
         {
+            jaAdicionouPlayer = true;
+            Debug.Log("[Steam] Host adicionando player.");
             NetworkClient.AddPlayer();
         }
     }
@@ -85,20 +86,24 @@ public class SteamLobbyManager : MonoBehaviour
             return;
         }
 
-        // Cliente conecta no host
         Uri steamUri = new Uri("steam://" + ownerId);
         NetworkManager.singleton.StartClient(steamUri);
 
-        // Quando conectar no host, fica pronto e adiciona player
         NetworkClient.OnConnectedEvent += () =>
         {
             Debug.Log("[Steam] Cliente conectado - enviando Ready e AddPlayer.");
-
             NetworkClient.Ready();
 
-            if (!NetworkClient.localPlayer)
+            // ✅ Protege contra instanciar o LobbyPlayer duas vezes
+            if (!jaAdicionouPlayer && !NetworkClient.localPlayer)
             {
+                jaAdicionouPlayer = true;
+                Debug.Log("[Steam] Cliente adicionando player.");
                 NetworkClient.AddPlayer();
+            }
+            else
+            {
+                Debug.LogWarning("[Steam] AddPlayer ignorado (já adicionado ou player existente).");
             }
         };
 
@@ -133,7 +138,6 @@ public class SteamLobbyManager : MonoBehaviour
             SteamMatchmaking.LeaveLobby(SteamLobbyManager.CurrentLobbyID);
         }
     }
-
 
     private void OnDestroy()
     {
