@@ -67,6 +67,13 @@ public class JogadorAndando : Estado
         //     jogador.MoveCelular();
         // }
         
+        if (Input.GetKeyDown(KeyCode.E) && jogador.inventario.itemPerto != null)
+        {
+            jogador.inventario.AdicionarItem();
+        }
+        // usar  Item 
+        // Dropar Item 
+
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
@@ -83,11 +90,11 @@ public class JogadorAndando : Estado
     {
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
         if (grounded){
-            jogador.rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+            jogador.rb.AddForce(moveDirection.normalized * (moveSpeed * 10f), ForceMode.Force);
             jogador.rb.linearDamping = groundDrag;
         }
         else if (!grounded)
-            jogador.rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultipler, ForceMode.Force);
+            jogador.rb.AddForce(moveDirection.normalized * (moveSpeed * 10f * airMultipler), ForceMode.Force);
         
         if(transform.position.y <= -10 )
             jogador.Morte();

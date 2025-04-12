@@ -9,11 +9,12 @@ using UnityEngine.UI;
 // Controlar a troca entre estados e possui as variaveis que precisam ser compartilhadas entre estados
 public class Jogador : MaquinaDeEstado
 {
+// Separar em mais 2 classes pelo menos 
+
 
     [SerializeField] public Estado EstadoAndando;
     [SerializeField] public Estado EstadoParalisado;
-    // MiniTask 
-    // Parado
+    // MiniTask     
     // RagDoll 
 
  
@@ -23,12 +24,15 @@ public class Jogador : MaquinaDeEstado
     [SerializeField] private float vida;
     [SerializeField] private float vidaMaxima;
     [SerializeField] private float velocidade;
-    [SerializeField] private float capacidade;
+    [SerializeField] public int capacidade;
+    
     [SerializeField] private TMP_Text textoVida;
     [SerializeField] public SoundPlayer soundPlayer;
     [SerializeField] public float veneno; 
     [SerializeField] private float resistencia; 
     [SerializeField] private float cooldownVeneno = 5f; 
+    
+    
     [Header("HUD")]
     [SerializeField] private CameraPOV cameraPOV;
     [SerializeField] private RectTransform celular;
@@ -37,8 +41,8 @@ public class Jogador : MaquinaDeEstado
     [SerializeField] private GameObject textoVeneno;
     [SerializeField] private Image fillImage;
 
-    //public Item[] inventario;
-
+    
+    [SerializeField] public Inventario inventario;
 
     private void Start()
     {
@@ -100,9 +104,9 @@ public class Jogador : MaquinaDeEstado
             Destroy(other.gameObject);
             veneno += 1; 
             StartCoroutine(Envenenado());
-        }
+        }                
     }
-
+    
     public IEnumerator Envenenado()
     {
         resistencia += veneno;
