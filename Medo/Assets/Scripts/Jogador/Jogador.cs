@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,13 +8,14 @@ using UnityEngine.UI;
 
 // Classe principal de jogador
 // Controlar a troca entre estados e possui as variaveis que precisam ser compartilhadas entre estados
-public class Jogador : MaquinaDeEstado
+public class Jogador : NetworkBehaviour, MaquinaDeEstado 
 {
 // Separar em mais 2 classes pelo menos 
 
 
     [SerializeField] public Estado EstadoAndando;
     [SerializeField] public Estado EstadoParalisado;
+    [SerializeField] public Estado EstadoAtual;
     // MiniTask     
     // RagDoll 
 
@@ -52,23 +54,26 @@ public class Jogador : MaquinaDeEstado
         EstadoAtual.Enter();
         
     }
-
-    public override void Update()
+    public void MudarEstado(Estado novoEstado)
     {
-        EstadoAtual.Do();
+        try
+        {
+            EstadoAtual.Exit();
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+        }
+        EstadoAtual = novoEstado;
+        EstadoAtual.Enter();
     }
 
-    public override void FixedUpdate()
+    public void FixedUpdate()
     {
         // if (Input.GetKeyDown(KeyCode.P)) MudarEstado(DriveEstado);
         EstadoAtual.FixedDo();
     }
-
-    public override void LateUpdate()
-    {
-        EstadoAtual.LateDo();
-    }
-
+    
     public float getVelocidade(){
         return velocidade;
     }

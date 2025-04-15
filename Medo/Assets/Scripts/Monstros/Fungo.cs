@@ -16,20 +16,10 @@ public class Fungo : Monstro
         EstadoAtual.Enter();
         StartCoroutine("Ataque");
     }
-
-    public override void Update()
-    {
-        EstadoAtual.Do();        
-    }
-
+    
     public override void FixedUpdate()
     {
         EstadoAtual.FixedDo();
-    }
-
-    public override void LateUpdate()
-    {
-        EstadoAtual.LateDo();
     }
 
     IEnumerator  Ataque(){

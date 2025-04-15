@@ -8,19 +8,10 @@ public class JogadorParalisado : Estado
         
     }
 
-    public override void Do()
-    {
-    }
-
-
     public override void FixedDo()
     {
        
     }
-    public override void LateDo()
-    {
-    }
-
     public override void Exit()
     {
     }

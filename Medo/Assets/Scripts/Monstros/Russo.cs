@@ -21,12 +21,7 @@ public class Russo : Monstro
         EstadoAtual = estadoPerseguindo;
         EstadoAtual.Enter();
     }
-
-    public override void Update()
-    {
-        EstadoAtual.Do();
-    }
-
+    
     public override void FixedUpdate()
     {
         EstadoAtual.FixedDo();
@@ -44,11 +39,6 @@ public class Russo : Monstro
                 MudarEstado(estadoPerseguindo);
             }
         }
-    }
-
-    public override void LateUpdate()
-    {
-        EstadoAtual.LateDo();
     }
     
     void OnTriggerEnter(Collider other)

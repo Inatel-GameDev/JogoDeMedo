@@ -7,10 +7,6 @@ public class RussoAtacando : Estado
     [SerializeField] public Canvas canvas;
     [SerializeField] public Russo monstro;
     
-    public override void Do()
-    {
-        
-    }
 
     public override void Enter()
     {
@@ -30,11 +26,6 @@ public class RussoAtacando : Estado
     {
         
     }
-
-    public override void LateDo()
-    {
-        
-    }
-
+    
 
 }

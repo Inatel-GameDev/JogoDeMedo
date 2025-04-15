@@ -14,23 +14,13 @@ public class Lerdo : Monstro
         EstadoAtual = estadoSeguindo;
         EstadoAtual.Enter();
     }
-
-    public override void Update()
-    {
-        EstadoAtual.Do();
-    }
-
+    
     public override void FixedUpdate()
     {
         // if (Input.GetKeyDown(KeyCode.P)) MudarEstado(DriveEstado);
         EstadoAtual.FixedDo();
     }
-
-    public override void LateUpdate()
-    {
-        EstadoAtual.LateDo();
-    }
-
+    
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Player")){                        

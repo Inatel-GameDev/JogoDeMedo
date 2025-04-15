@@ -15,14 +15,7 @@ public class RussoPerto : Estado
     {
         monstro.agente.destination = monstro.jogadorAlvo.transform.position;
     }
-    public override void Do()
-    {
-        
-    }
-    public override void LateDo()
-    {
-        
-    }     
+         
     public override void Exit()
     {
         monstro.agente.isStopped = true;

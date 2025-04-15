@@ -58,14 +58,6 @@ public class RussoPerseguino : Estado
         }
     }
     
-    public override void Do()
-    {
-        
-    }
-    public override void LateDo()
-    {
-        
-    }     
     public override void Exit()
     {
         monstro.agente.isStopped = true;

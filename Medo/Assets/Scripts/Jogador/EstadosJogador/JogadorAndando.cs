@@ -26,11 +26,7 @@ public class JogadorAndando : Estado
         readyToJump = true;
         moveSpeed = jogador.getVelocidade();
     }
-
-    public override void Do()
-    {    
-
-    }
+    
 
 
     public override void FixedDo()
@@ -52,10 +48,7 @@ public class JogadorAndando : Estado
         Movejogador();
         SpeedControl();
     }
-    public override void LateDo()
-    {
-    }
-
+    
     public override void Exit()
     {
     }

@@ -17,14 +17,7 @@ public class LerdoSeguindo : Estado
         monstro.agente.destination = jogador.position;
         
     }
-    public override void Do()
-    {
-        
-    }
-    public override void LateDo()
-    {
-        
-    }     
+         
     public override void Exit()
     {
         monstro.agente.isStopped = true;

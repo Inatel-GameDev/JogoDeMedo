@@ -6,12 +6,7 @@ public class LerdoAtacando : Estado
     [SerializeField] private Lerdo monstro;
     [SerializeField] private SphereCollider ataqueCollider;
     [SerializeField] private bool acertou = false;
-
-    public override void Do()
-    {
-        
-    }
-
+    
     public override void Enter()
     {
         //monstro.soundPlayer.playSound(SoundsLerdo.instance.aviso);
@@ -45,12 +40,7 @@ public class LerdoAtacando : Estado
     {
         
     }
-
-    public override void LateDo()
-    {
-        
-    }
-
+    
     IEnumerator  Ataque(){
         yield return new WaitForSeconds(1);
         monstro.soundPlayer.playSound(SoundsLerdo.instance.aviso);

@@ -13,23 +13,13 @@ public class FungoMatrix : Estado
        errante.FindNewDestinationMatrix(agent);
        
     }
-
-    public override void Do()
+    
+    public override void FixedDo()
     {
         if (agent.remainingDistance <= agent.stoppingDistance)
         {
-           errante.FindNewDestinationMatrix(agent);
+            errante.FindNewDestinationMatrix(agent);
         }
-    }
-
-    public override void FixedDo()
-    {
-        
-    }
-
-    public override void LateDo()
-    {
-        
     }
 
     public override void Exit()
