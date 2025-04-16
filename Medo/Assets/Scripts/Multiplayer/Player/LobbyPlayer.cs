@@ -13,12 +13,15 @@ public class LobbyPlayer : NetworkBehaviour
 
     private bool trocou = false;
 
+    [SerializeField]
+    private string sceneToChange;
+
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
 
         // ⚠️ Evita instanciar LobbyPlayer na cena errada (por bug de timing)
-        if (SceneManager.GetActiveScene().name == "Marcelo")
+        if (SceneManager.GetActiveScene().name == sceneToChange)
         {
             Debug.LogWarning("[LobbyPlayer] Spawnado na cena errada. Destruindo...");
             Destroy(gameObject);
@@ -78,7 +81,7 @@ public class LobbyPlayer : NetworkBehaviour
     {
         SceneManager.sceneLoaded -= OnSceneChanged;
 
-        if (SceneManager.GetActiveScene().name == "Marcelo")
+        if (SceneManager.GetActiveScene().name == sceneToChange)
             Debug.Log("[LobbyPlayer] Destruído após troca de cena.");
     }
 
@@ -86,9 +89,9 @@ public class LobbyPlayer : NetworkBehaviour
     {
         if (!isOwned) return;
 
-        if (scene.name == "Marcelo")
+        if (scene.name == sceneToChange)
         {
-            Debug.Log("[LobbyPlayer] Cena Marcelo carregada. Esperando estar pronto...");
+            Debug.Log($"[LobbyPlayer] Cena {sceneToChange} carregada. Esperando estar pronto...");
             StartCoroutine(EsperarReadyAntesDeTrocar());
         }
     }
@@ -166,9 +169,9 @@ public class LobbyPlayer : NetworkBehaviour
             yield return null;
         }
 
-        if (SceneManager.GetActiveScene().name == "Marcelo")
+        if (SceneManager.GetActiveScene().name == sceneToChange)
         {
-            Debug.LogWarning("[LobbyPlayer] Spawnou em Marcelo com nome " + playerName + ". Destruindo...");
+            Debug.LogWarning($"[LobbyPlayer] Spawnou em {sceneToChange} com nome " + playerName + ". Destruindo...");
             Destroy(gameObject);
             yield break;
         }

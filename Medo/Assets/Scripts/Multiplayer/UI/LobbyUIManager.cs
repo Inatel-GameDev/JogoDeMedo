@@ -13,6 +13,9 @@ public class LobbyUIManager : MonoBehaviour
 
     private Dictionary<NetworkIdentity, GameObject> entries = new();
 
+    [SerializeField]
+    private string sceneToChange;
+
     private void Awake()
     {
         if (Instance == null)
@@ -60,7 +63,7 @@ public class LobbyUIManager : MonoBehaviour
     {
         if (NetworkServer.active)
         {
-            NetworkManager.singleton.ServerChangeScene("Marcelo"); // 🔁 sua cena real
+            NetworkManager.singleton.ServerChangeScene(sceneToChange); // 🔁 sua cena real
         }
     }
 }
