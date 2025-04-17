@@ -27,7 +27,6 @@ public class Inventario : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        
         if(other.gameObject.CompareTag("Item")){
             Debug.Log("Item");
             // habilitar escrito na tela             

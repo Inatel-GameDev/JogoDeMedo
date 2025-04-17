@@ -66,7 +66,8 @@ public class JogadorAndando : Estado
         }
         // usar  Item 
         // Dropar Item 
-
+        // Selecionar item
+        
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
