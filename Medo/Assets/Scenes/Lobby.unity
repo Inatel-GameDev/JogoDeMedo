@@ -1122,6 +1122,7 @@ MonoBehaviour:
   playerEntryPrefab: {fileID: 6411638062333800117, guid: bdf8b073f5d7a0f438341b8936ffbead, type: 3}
   playerListParent: {fileID: 1797825160}
   startGameButton: {fileID: 1062326632}
+  sceneToChange: Dju
 --- !u!1 &1059560495
 GameObject:
   m_ObjectHideFlags: 0
