@@ -8,38 +8,40 @@ using UnityEngine.UI;
 
 // Classe principal de jogador
 // Controlar a troca entre estados e possui as variaveis que precisam ser compartilhadas entre estados
-[RequireComponent(typeof(CharacterController))]
-public class Jogador : NetworkBehaviour, MaquinaDeEstado 
+
+//[RequireComponent(typeof(CharacterController))]
+public class Jogador : MonoBehaviour, MaquinaDeEstado 
 {
-// Separar em mais 2 classes pelo menos 
-
-
-    [SerializeField] public Estado EstadoAndando;
-    [SerializeField] public Estado EstadoParalisado;
-    [SerializeField] public Estado EstadoAtual;
-    // MiniTask     
-    // RagDoll 
-
-    [SyncVar(hook = nameof(OnPlayerNameChanged))]
+    
+    //[SyncVar(hook = nameof(OnPlayerNameChanged))]
     private string playerName = "Player";
     public TextMeshProUGUI playerNameText;
  
     [SerializeField] public GameManager manager;
     public Rigidbody rb;    
+    [SerializeField] public SoundPlayer soundPlayer;
     // public Anim anim;
+    
+    [Header("Estados")]
+    [SerializeField] public Estado EstadoAndando;
+    [SerializeField] public Estado EstadoParalisado;
+    [SerializeField] public Estado EstadoAtual;
+    // MiniTask     
+    // RagDoll 
+    
+    [Header("Status")]
     [SerializeField] private float vida;
     [SerializeField] private float vidaMaxima;
     [SerializeField] private float velocidade;
     [SerializeField] public int capacidade;
-    
-    [SerializeField] private TMP_Text textoVida;
-    [SerializeField] public SoundPlayer soundPlayer;
+    [SerializeField] public Inventario inventario;
     [SerializeField] public float veneno; 
     [SerializeField] private float resistencia; 
     [SerializeField] private float cooldownVeneno = 5f; 
     
     
     [Header("HUD")]
+    [SerializeField] private TMP_Text textoVida;
     [SerializeField] private CameraPOV cameraPOV;
     [SerializeField] private RectTransform celular;
     [SerializeField] private bool celularPraCima = false;
@@ -48,11 +50,14 @@ public class Jogador : NetworkBehaviour, MaquinaDeEstado
     [SerializeField] private Image fillImage;
 
     
-    [SerializeField] public Inventario inventario;
+    
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        // Manager
+        // PlayerNameText
+        // CameraPov
+        
         EstadoAtual = EstadoAndando;
         textoVida.SetText("Saúde: " + vidaMaxima);
         EstadoAtual.Enter();
