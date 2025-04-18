@@ -15,6 +15,7 @@ public class Inventario : MonoBehaviour
     public String[] inventario;
     public Item itemPerto ;
     [SerializeField] private GameObject[] itemsPrefabs;
+    public int selecionado;
     
 
     // Atualizar a tela com escrita
@@ -46,9 +47,7 @@ public class Inventario : MonoBehaviour
 
     public void AdicionarItem(){
         
-        // acho que tem q trocar de item pra gameobject 
         for (int i = 0; i < inventario.Length; i++){
-            
             if(inventario[i] == null){
                 inventario[i] = itemPerto.gameObject.name;                
                 Destroy(itemPerto.gameObject);
@@ -58,9 +57,9 @@ public class Inventario : MonoBehaviour
         }                
     }
 
-    public void SoltarItem(int selecionado)
+    public void SoltarItem()
     {
-        // trocar para estrutura de dicionario se o for ficar lerdo 
+        // trocar para estrutura de dicionario se o FOR ficar lerdo 
         for (int i = 0; i < itemsPrefabs.Length; i++)
         {
             if (inventario[selecionado] == itemsPrefabs[i].name)
@@ -68,6 +67,7 @@ public class Inventario : MonoBehaviour
                 Instantiate(itemsPrefabs[i]  , transform.position, Quaternion.identity);
                 inventario[selecionado] = null;
                 break;
+                // atualiza tela 
             }
             else
             {
@@ -75,5 +75,16 @@ public class Inventario : MonoBehaviour
             }
         }
     }
-    
+
+    public void UsarItem()
+    {
+        for (int i = 0; i < itemsPrefabs.Length; i++)
+        {
+            if (inventario[selecionado] == itemsPrefabs[i].name)
+            {
+                
+            }
+        }
+    }
+
 }

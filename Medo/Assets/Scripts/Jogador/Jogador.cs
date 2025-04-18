@@ -20,6 +20,9 @@ public class Jogador : NetworkBehaviour, MaquinaDeEstado
     // MiniTask     
     // RagDoll 
 
+    [SyncVar(hook = nameof(OnPlayerNameChanged))]
+    private string playerName = "Player";
+    public TextMeshProUGUI playerNameText;
  
     [SerializeField] public GameManager manager;
     public Rigidbody rb;    
@@ -175,5 +178,22 @@ public class Jogador : NetworkBehaviour, MaquinaDeEstado
         yield return new WaitForSeconds(0.1f);
     }
     
+    private void OnPlayerNameChanged(string oldName, string newName)
+    {
+        PutNameOnUI();
+    }
+    
+    public void PutNameOnUI()
+    {
+        if (playerNameText != null)
+        {
+            playerNameText.text = playerName;
+            Debug.Log("[PlayerController] Nome atualizado na UI: " + playerName);
+        }
+        else
+        {
+            Debug.LogWarning("[PlayerController] playerNameText não atribuído.");
+        }
+    }
   
 }
