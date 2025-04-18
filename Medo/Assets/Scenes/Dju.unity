@@ -2059,6 +2059,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4799935488690606880, guid: 80b13e6cddbcb2d7291d5fe5c1ee8752, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5871309246777410365, guid: 80b13e6cddbcb2d7291d5fe5c1ee8752, type: 3}
       propertyPath: m_Name
       value: JogadorPreFab
@@ -2069,6 +2073,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6223439738261960163, guid: 80b13e6cddbcb2d7291d5fe5c1ee8752, type: 3}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6528458948783773580, guid: 80b13e6cddbcb2d7291d5fe5c1ee8752, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8210692273127235607, guid: 80b13e6cddbcb2d7291d5fe5c1ee8752, type: 3}

@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,8 +13,8 @@ public class Jogador : MonoBehaviour, MaquinaDeEstado
 {
     
     //[SyncVar(hook = nameof(OnPlayerNameChanged))]
-    private string playerName = "Player";
-    public TextMeshProUGUI playerNameText;
+    // private string playerName = "Player";
+    // public TextMeshProUGUI playerNameText;
  
     [SerializeField] public GameManager manager;
     public Rigidbody rb;    
@@ -57,7 +56,7 @@ public class Jogador : MonoBehaviour, MaquinaDeEstado
         // Manager
         // PlayerNameText
         // CameraPov
-        
+        Debug.Log("aaaa");
         EstadoAtual = EstadoAndando;
         textoVida.SetText("Saúde: " + vidaMaxima);
         EstadoAtual.Enter();
@@ -183,22 +182,22 @@ public class Jogador : MonoBehaviour, MaquinaDeEstado
         yield return new WaitForSeconds(0.1f);
     }
     
-    private void OnPlayerNameChanged(string oldName, string newName)
-    {
-        PutNameOnUI();
-    }
-    
-    public void PutNameOnUI()
-    {
-        if (playerNameText != null)
-        {
-            playerNameText.text = playerName;
-            Debug.Log("[PlayerController] Nome atualizado na UI: " + playerName);
-        }
-        else
-        {
-            Debug.LogWarning("[PlayerController] playerNameText não atribuído.");
-        }
-    }
+    // private void OnPlayerNameChanged(string oldName, string newName)
+    // {
+    //     PutNameOnUI();
+    // }
+    //
+    // public void PutNameOnUI()
+    // {
+    //     if (playerNameText != null)
+    //     {
+    //         playerNameText.text = playerName;
+    //         Debug.Log("[PlayerController] Nome atualizado na UI: " + playerName);
+    //     }
+    //     else
+    //     {
+    //         Debug.LogWarning("[PlayerController] playerNameText não atribuído.");
+    //     }
+    // }
   
 }
