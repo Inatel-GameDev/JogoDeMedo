@@ -2127,7 +2127,8 @@ PrefabInstance:
       propertyPath: monstro
       value: 
       objectReference: {fileID: 389425784}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4781774027277117319, guid: 80b13e6cddbcb2d7291d5fe5c1ee8752, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

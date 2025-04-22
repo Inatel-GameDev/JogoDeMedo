@@ -208,7 +208,7 @@ GameObject:
   m_Component:
   - component: {fileID: 105656597}
   m_Layer: 0
-  m_Name: MainMenuUI
+  m_Name: StartGameUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -8,8 +8,6 @@ using UnityEngine.UI;
 
 // Classe principal de jogador
 // Controlar a troca entre estados e possui as variaveis que precisam ser compartilhadas entre estados
-
-[RequireComponent(typeof(CharacterController))]
 public class Jogador : NetworkBehaviour, MaquinaDeEstado 
 {
     
@@ -200,7 +198,10 @@ public class Jogador : NetworkBehaviour, MaquinaDeEstado
     
     // ****************************************************************************************************************
     // Network
-    
+    public void SetPlayerName(string nome)
+    {
+        playerName = nome;
+    }
     private void OnPlayerNameChanged(string oldName, string newName)
     {
         PutNameOnUI();

@@ -139,7 +139,7 @@ public class LobbyPlayer : NetworkBehaviour
         var gamePlayerPrefab = NetworkManager.singleton.spawnPrefabs.Find(p => p.name == "Player");
         GameObject newPlayer = Instantiate(gamePlayerPrefab);
 
-        PlayerController controller = newPlayer.GetComponent<PlayerController>();
+        Jogador controller = newPlayer.GetComponent<Jogador>();
         if (controller != null)
         {
             controller.SetPlayerName(playerName); // 🔁 seta nome replicável
