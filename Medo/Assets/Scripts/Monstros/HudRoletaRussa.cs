@@ -34,7 +34,7 @@ public class HudRoletaRussa : MonoBehaviour
         }
         else
         {
-            monstro.jogadorAlvo.MudarEstado(monstro.jogadorAlvo.EstadoAndando);
+            monstro.jogadorAlvo.MudarEstado(monstro.jogadorAlvo.EstadoAtivo);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             cameraPov.enabled = true;

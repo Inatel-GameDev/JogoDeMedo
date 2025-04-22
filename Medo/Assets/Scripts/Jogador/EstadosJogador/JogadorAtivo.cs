@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class JogadorAndando : Estado
+public class JogadorAtivo : Estado
 {
     [SerializeField] private Jogador jogador;
     public float jogadorHeight;

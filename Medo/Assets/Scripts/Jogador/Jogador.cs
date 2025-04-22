@@ -22,7 +22,7 @@ public class Jogador : MonoBehaviour, MaquinaDeEstado
     // public Anim anim;
     
     [Header("Estados")]
-    [SerializeField] public Estado EstadoAndando;
+    [SerializeField] public Estado EstadoAtivo;
     [SerializeField] public Estado EstadoParalisado;
     [SerializeField] public Estado EstadoAtual;
     // MiniTask     
@@ -57,7 +57,7 @@ public class Jogador : MonoBehaviour, MaquinaDeEstado
         // PlayerNameText
         // CameraPov
         Debug.Log("aaaa");
-        EstadoAtual = EstadoAndando;
+        EstadoAtual = EstadoAtivo;
         textoVida.SetText("Saúde: " + vidaMaxima);
         EstadoAtual.Enter();
         
