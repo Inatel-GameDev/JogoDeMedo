@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,13 +9,13 @@ using UnityEngine.UI;
 // Classe principal de jogador
 // Controlar a troca entre estados e possui as variaveis que precisam ser compartilhadas entre estados
 
-//[RequireComponent(typeof(CharacterController))]
-public class Jogador : MonoBehaviour, MaquinaDeEstado 
+[RequireComponent(typeof(CharacterController))]
+public class Jogador : NetworkBehaviour, MaquinaDeEstado 
 {
     
-    //[SyncVar(hook = nameof(OnPlayerNameChanged))]
-    // private string playerName = "Player";
-    // public TextMeshProUGUI playerNameText;
+    [SyncVar(hook = nameof(OnPlayerNameChanged))]
+    private string playerName = "Player";
+    public TextMeshProUGUI playerNameText;
  
     [SerializeField] public GameManager manager;
     public Rigidbody rb;    
@@ -31,7 +32,7 @@ public class Jogador : MonoBehaviour, MaquinaDeEstado
     [Header("Status")]
     [SerializeField] private float vida;
     [SerializeField] private float vidaMaxima;
-    [SerializeField] private float velocidade;
+    [SerializeField] public float velocidade;
     [SerializeField] public int capacidade;
     [SerializeField] public Inventario inventario;
     [SerializeField] public float veneno; 
@@ -49,19 +50,31 @@ public class Jogador : MonoBehaviour, MaquinaDeEstado
     [SerializeField] private Image fillImage;
 
     
-    
+    // ****************************************************************************************************************
+    // Unity
 
     private void Start()
     {
         // Manager
-        // PlayerNameText
-        // CameraPov
-        Debug.Log("aaaa");
+        if (!isLocalPlayer && cameraPOV != null)
+            cameraPOV.gameObject.SetActive(false);
+        
         EstadoAtual = EstadoAtivo;
         textoVida.SetText("Saúde: " + vidaMaxima);
         EstadoAtual.Enter();
-        
     }
+    
+    public void FixedUpdate()
+    {
+        if (!isLocalPlayer) return;
+        CmdSendPosition(transform.position);
+        // if (Input.GetKeyDown(KeyCode.P)) MudarEstado(DriveEstado);
+        EstadoAtual.FixedDo();
+    }
+    
+    // ****************************************************************************************************************
+    // Estados e GamePlay
+    
     public void MudarEstado(Estado novoEstado)
     {
         try
@@ -75,17 +88,7 @@ public class Jogador : MonoBehaviour, MaquinaDeEstado
         EstadoAtual = novoEstado;
         EstadoAtual.Enter();
     }
-
-    public void FixedUpdate()
-    {
-        // if (Input.GetKeyDown(KeyCode.P)) MudarEstado(DriveEstado);
-        EstadoAtual.FixedDo();
-    }
     
-    public float getVelocidade(){
-        return velocidade;
-    }
-
     public void machucaJogador(float dano){
         vida -= dano;
         if(vida <= 0){
@@ -96,15 +99,6 @@ public class Jogador : MonoBehaviour, MaquinaDeEstado
             soundPlayer.playSound(SoundsJogador.instance.atingido);
             Debug.Log("Machucado");            
         }
-    }
-
-    private void CriaBarraVeneno()
-    {
-        textoVeneno.SetActive(true);
-        fillImage.gameObject.SetActive(true);
-        // fillImage.type = Image.Type.Filled;
-        // fillImage.fillMethod = Image.FillMethod.Horizontal;
-        // fillImage.color = new Color(1, 200, 1, 0);
     }
     
     void OnTriggerEnter(Collider other)
@@ -144,6 +138,15 @@ public class Jogador : MonoBehaviour, MaquinaDeEstado
         Debug.Log("Morreu");
     }
 
+    // ****************************************************************************************************************
+    // HUD
+    
+    private void CriaBarraVeneno()
+    {
+        textoVeneno.SetActive(true);
+        fillImage.gameObject.SetActive(true);
+    }
+    
     public void MoveCelular()
     {
         Debug.Log("Move Celular");
@@ -182,22 +185,47 @@ public class Jogador : MonoBehaviour, MaquinaDeEstado
         yield return new WaitForSeconds(0.1f);
     }
     
-    // private void OnPlayerNameChanged(string oldName, string newName)
-    // {
-    //     PutNameOnUI();
-    // }
-    //
-    // public void PutNameOnUI()
-    // {
-    //     if (playerNameText != null)
-    //     {
-    //         playerNameText.text = playerName;
-    //         Debug.Log("[PlayerController] Nome atualizado na UI: " + playerName);
-    //     }
-    //     else
-    //     {
-    //         Debug.LogWarning("[PlayerController] playerNameText não atribuído.");
-    //     }
-    // }
-  
+    public void PutNameOnUI()
+    {
+        if (playerNameText != null)
+        {
+            playerNameText.text = playerName;
+            Debug.Log("[PlayerController] Nome atualizado na UI: " + playerName);
+        }
+        else
+        {
+            Debug.LogWarning("[PlayerController] playerNameText não atribuído.");
+        }
+    }
+    
+    // ****************************************************************************************************************
+    // Network
+    
+    private void OnPlayerNameChanged(string oldName, string newName)
+    {
+        PutNameOnUI();
+    }
+    
+    [Command]
+    void CmdSendPosition(Vector3 pos)
+    {
+        RpcUpdatePosition(pos);
+    }
+    [ClientRpc]
+    void RpcUpdatePosition(Vector3 pos)
+    {
+        if (isLocalPlayer) return;
+        transform.position = pos;
+    }
+    
+    public override void OnStartAuthority()
+    {
+        base.OnStartAuthority();
+        if (cameraPOV.gameObject != null)
+        {
+            cameraPOV.gameObject.SetActive(true);
+            Debug.Log("[PlayerController] Câmera ativada.");
+        }
+    }
+
 }
