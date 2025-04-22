@@ -145,7 +145,17 @@ Base
 
 ## Unity 
 
-Objeto jogador: 
+Prefabs: 
+* Jogador Prefab, possui o jogador com todos os seus estados e colliders, mas tabém sua câmera e Hud 
+* Monstros 
+    * Fungo
+        *  Bomba do Fungo
+    * Lerdo 
+    * Russo 
+
+
+
+Objeto jogador:
 * Tag = Player
 * RigidBody (Interpolate e Continuous), Capsule Collider, AudioSource
 * Scripts: SoundPlayer, Jogador

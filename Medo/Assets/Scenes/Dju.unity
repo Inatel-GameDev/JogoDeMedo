@@ -2055,6 +2055,10 @@ PrefabInstance:
       propertyPath: manager
       value: 
       objectReference: {fileID: 759759068}
+    - target: {fileID: 1112855479140149796, guid: 80b13e6cddbcb2d7291d5fe5c1ee8752, type: 3}
+      propertyPath: m_Name
+      value: JogadorAtivo
+      objectReference: {fileID: 0}
     - target: {fileID: 4781774027277117319, guid: 80b13e6cddbcb2d7291d5fe5c1ee8752, type: 3}
       propertyPath: m_Enabled
       value: 0

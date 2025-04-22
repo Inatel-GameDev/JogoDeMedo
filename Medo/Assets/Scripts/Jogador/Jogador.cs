@@ -17,7 +17,7 @@ public class Jogador : NetworkBehaviour, MaquinaDeEstado
     private string playerName = "Player";
     public TextMeshProUGUI playerNameText;
  
-    [SerializeField] public GameManager manager;
+    //[SerializeField] public GameManager manager;
     public Rigidbody rb;    
     [SerializeField] public SoundPlayer soundPlayer;
     // public Anim anim;
