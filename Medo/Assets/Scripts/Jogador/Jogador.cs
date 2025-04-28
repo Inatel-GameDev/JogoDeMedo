@@ -4,15 +4,16 @@ using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 
 // Classe principal de jogador
 // Controlar a troca entre estados e possui as variaveis que precisam ser compartilhadas entre estados
-public class Jogador : NetworkBehaviour, MaquinaDeEstado 
+
+// public class Jogador : NetworkBehaviour, MaquinaDeEstado
+public class Jogador : MonoBehaviour, MaquinaDeEstado
 {
     
-    [SyncVar(hook = nameof(OnPlayerNameChanged))]
+    // [SyncVar(hook = nameof(OnPlayerNameChanged))]
     private string playerName = "Player";
     public TextMeshProUGUI playerNameText;
  
@@ -54,41 +55,20 @@ public class Jogador : NetworkBehaviour, MaquinaDeEstado
 
     private void Start()
     {
-        Debug.Log("[Jogador] Start chamado");
-
-        // Se não tiver rede ativa, assume que é cena offline
-        if (!NetworkClient.active && cameraPOV != null)
-        {
-            Debug.LogWarning("[Jogador] Sem rede ativa. Forçando como local player para teste offline.");
-            cameraPOV.gameObject.SetActive(true);
-        }
-        else if (!isLocalPlayer && cameraPOV != null)
-        {
-            cameraPOV.gameObject.SetActive(false);
-        }
+        // Manager
+        // if (!isLocalPlayer && cameraPOV != null)
+        //     cameraPOV.gameObject.SetActive(false);
         
         EstadoAtual = EstadoAtivo;
         textoVida.SetText("Saúde: " + vidaMaxima);
         EstadoAtual.Enter();
-
-        StartCoroutine(DebugPlayerLife());
     }
-
     
-    private IEnumerator DebugPlayerLife()
-    {
-        while (true)
-        {
-            Debug.Log($"[Jogador] Estado: ativo = {gameObject.activeSelf}, cena = {SceneManager.GetActiveScene().name}");
-            yield return new WaitForSeconds(1f);
-        }
-    }
-
     public void FixedUpdate()
     {
-        if (!isLocalPlayer) return;
-        CmdSendPosition(transform.position);
-        // if (Input.GetKeyDown(KeyCode.P)) MudarEstado(DriveEstado);
+        // if (!isLocalPlayer) return;
+        // CmdSendPosition(transform.position);
+        
         EstadoAtual.FixedDo();
     }
     
@@ -228,27 +208,27 @@ public class Jogador : NetworkBehaviour, MaquinaDeEstado
     {
         PutNameOnUI();
     }
-    
-    [Command]
-    void CmdSendPosition(Vector3 pos)
-    {
-        RpcUpdatePosition(pos);
-    }
-    [ClientRpc]
-    void RpcUpdatePosition(Vector3 pos)
-    {
-        if (isLocalPlayer) return;
-        transform.position = pos;
-    }
-    
-    public override void OnStartAuthority()
-    {
-        base.OnStartAuthority();
-        if (cameraPOV.gameObject != null)
-        {
-            cameraPOV.gameObject.SetActive(true);
-            Debug.Log("[PlayerController] Câmera ativada.");
-        }
-    }
+    //
+    // [Command]
+    // void CmdSendPosition(Vector3 pos)
+    // {
+    //     RpcUpdatePosition(pos);
+    // }
+    // [ClientRpc]
+    // void RpcUpdatePosition(Vector3 pos)
+    // {
+    //     if (isLocalPlayer) return;
+    //     transform.position = pos;
+    // }
+    //
+    // public override void OnStartAuthority()
+    // {
+    //     base.OnStartAuthority();
+    //     if (cameraPOV.gameObject != null)
+    //     {
+    //         cameraPOV.gameObject.SetActive(true);
+    //         Debug.Log("[PlayerController] Câmera ativada.");
+    //     }
+    // }
 
 }

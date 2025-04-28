@@ -130,13 +130,13 @@ public class LobbyPlayer : NetworkBehaviour
 
     private IEnumerator SwapPlayerCoroutine()
     {
-        if (!NetworkManager.singleton.spawnPrefabs.Exists(p => p.name == "JogadorPreFab"))
+        if (!NetworkManager.singleton.spawnPrefabs.Exists(p => p.name == "Player"))
         {
             Debug.LogError("[Mirror] Prefab 'Player' não está registrado em spawnPrefabs!");
             yield break;
         }
 
-        var gamePlayerPrefab = NetworkManager.singleton.spawnPrefabs.Find(p => p.name == "JogadorPreFab");
+        var gamePlayerPrefab = NetworkManager.singleton.spawnPrefabs.Find(p => p.name == "Player");
         GameObject newPlayer = Instantiate(gamePlayerPrefab);
 
         Jogador controller = newPlayer.GetComponent<Jogador>();

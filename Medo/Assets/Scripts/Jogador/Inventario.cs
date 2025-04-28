@@ -1,7 +1,7 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 /// <summary>
 /// Responsavel por tudo de itens
@@ -11,27 +11,42 @@ using UnityEngine;
 public class Inventario : MonoBehaviour
 {
     [SerializeField] private Jogador jogador;
-    //  Possuir uma lista de prefabs, salvar apenas uma string na lista, quando soltar o item instancia
-    public String[] inventario;
-    public Item itemPerto ;
-    [SerializeField] private GameObject[] itemsPrefabs;
-    public int selecionado;
+    public WorldItem itemPerto;
+    public int selecionado = 0;
+    private List<Item> items = new List<Item>(); 
+    public List<Item> GetItems() => new List<Item>(items);
+    public Image image;
     
-
-    // Atualizar a tela com escrita
-
-    private void Start()
+    public void AddItem()
     {
-        inventario = new string[jogador.capacidade];
+        items.Add(itemPerto.item);
+        image.sprite = itemPerto.item.icon;
+        itemPerto.DestroyItem();
     }
 
+    public void RemoveItem()
+    {
+        ItemSpawner.Instance.SpawnItem(items[selecionado],transform.position);
+        items.Remove(items[selecionado]);
+        image.sprite = null;
+    }
 
+    // index do inventário vai ser o mesmo index da UI e do item "selecionado" 
+    public void UseItem(int index, Jogador player)
+    {
+        if(index >= 0 && index < items.Count)
+        {
+            items[index].Use(player);
+            RemoveItem();
+        }
+    }
+    
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Item")){
             Debug.Log("Item");
             // habilitar escrito na tela             
-            itemPerto = other.gameObject.GetComponent<Item>();
+            itemPerto = other.gameObject.GetComponent<WorldItem>();
         }
     }
 
@@ -39,52 +54,10 @@ public class Inventario : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Item")){
             Debug.Log("Sem Item");
-            if(itemPerto == other.gameObject.GetComponent<Item>()){
+            if(itemPerto == other.gameObject.GetComponent<WorldItem>()){
+                // Atualizar a tela com escrita
                 itemPerto = null;
             }            
         }
     }
-
-    public void AdicionarItem(){
-        
-        for (int i = 0; i < inventario.Length; i++){
-            if(inventario[i] == null){
-                inventario[i] = itemPerto.gameObject.name;                
-                Destroy(itemPerto.gameObject);
-                // Atualizar tela 
-                break;
-            }
-        }                
-    }
-
-    public void SoltarItem()
-    {
-        // trocar para estrutura de dicionario se o FOR ficar lerdo 
-        for (int i = 0; i < itemsPrefabs.Length; i++)
-        {
-            if (inventario[selecionado] == itemsPrefabs[i].name)
-            {
-                Instantiate(itemsPrefabs[i]  , transform.position, Quaternion.identity);
-                inventario[selecionado] = null;
-                break;
-                // atualiza tela 
-            }
-            else
-            {
-                Debug.Log("Item não encontrado para soltar");
-            }
-        }
-    }
-
-    public void UsarItem()
-    {
-        for (int i = 0; i < itemsPrefabs.Length; i++)
-        {
-            if (inventario[selecionado] == itemsPrefabs[i].name)
-            {
-                
-            }
-        }
-    }
-
 }
