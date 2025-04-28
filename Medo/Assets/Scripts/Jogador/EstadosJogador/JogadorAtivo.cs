@@ -30,7 +30,7 @@ public class JogadorAtivo : Estado
 
     public override void FixedDo()
     {
-        grounded = Physics.Raycast(transform.position, Vector3.down, jogadorHeight / 2f, whatIsGround);
+        grounded = Physics.Raycast(jogador.transform.position, Vector3.down, jogadorHeight / 2f, whatIsGround);
         Debug.DrawRay(transform.position, Vector3.down * (jogadorHeight / 2), grounded ? Color.green : Color.red);
         if (grounded)
             jogador.rb.linearDamping = groundDrag;
@@ -92,7 +92,7 @@ public class JogadorAtivo : Estado
         else if (!grounded)
             jogador.rb.AddForce(moveDirection.normalized * (jogador.velocidade * 10f * airMultipler), ForceMode.Force);
         
-        if(transform.position.y <= -10 )
+        if(jogador.transform.position.y <= -10)
             jogador.Morte();
     }
 

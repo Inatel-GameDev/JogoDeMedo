@@ -4,6 +4,7 @@ using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 // Classe principal de jogador
@@ -53,15 +54,36 @@ public class Jogador : NetworkBehaviour, MaquinaDeEstado
 
     private void Start()
     {
-        // Manager
-        if (!isLocalPlayer && cameraPOV != null)
+        Debug.Log("[Jogador] Start chamado");
+
+        // Se não tiver rede ativa, assume que é cena offline
+        if (!NetworkClient.active && cameraPOV != null)
+        {
+            Debug.LogWarning("[Jogador] Sem rede ativa. Forçando como local player para teste offline.");
+            cameraPOV.gameObject.SetActive(true);
+        }
+        else if (!isLocalPlayer && cameraPOV != null)
+        {
             cameraPOV.gameObject.SetActive(false);
+        }
         
         EstadoAtual = EstadoAtivo;
         textoVida.SetText("Saúde: " + vidaMaxima);
         EstadoAtual.Enter();
+
+        StartCoroutine(DebugPlayerLife());
     }
+
     
+    private IEnumerator DebugPlayerLife()
+    {
+        while (true)
+        {
+            Debug.Log($"[Jogador] Estado: ativo = {gameObject.activeSelf}, cena = {SceneManager.GetActiveScene().name}");
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
     public void FixedUpdate()
     {
         if (!isLocalPlayer) return;
