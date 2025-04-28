@@ -1,12 +1,11 @@
 using UnityEngine;
 
-public class JogadorAndando : Estado
+public class JogadorAtivo : Estado
 {
     [SerializeField] private Jogador jogador;
     public float jogadorHeight;
     public LayerMask whatIsGround;
     [SerializeField] private bool grounded;
-    [SerializeField] public float moveSpeed;
     [SerializeField] public float jumpForce;
     [SerializeField] public float jumpCooldown;
     [SerializeField] public float airMultipler;
@@ -24,7 +23,7 @@ public class JogadorAndando : Estado
     {
         // jogador.anim.play_animation("idle");
         readyToJump = true;
-        moveSpeed = jogador.getVelocidade();
+        
     }
     
 
@@ -55,11 +54,13 @@ public class JogadorAndando : Estado
 
     private void MyInput()
     {
+        // ** HUD **
         // if (Input.GetKeyDown(KeyCode.T))
         // {
         //     jogador.MoveCelular();
         // }
         
+        // ** Inventário **
         if (Input.GetKeyDown(KeyCode.E) && jogador.inventario.itemPerto != null)
         {
             jogador.inventario.AdicionarItem();
@@ -68,6 +69,7 @@ public class JogadorAndando : Estado
         // Dropar Item 
         // Selecionar item
         
+        // ** Movimento **
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
@@ -84,11 +86,11 @@ public class JogadorAndando : Estado
     {
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
         if (grounded){
-            jogador.rb.AddForce(moveDirection.normalized * (moveSpeed * 10f), ForceMode.Force);
+            jogador.rb.AddForce(moveDirection.normalized * (jogador.velocidade * 10f), ForceMode.Force);
             jogador.rb.linearDamping = groundDrag;
         }
         else if (!grounded)
-            jogador.rb.AddForce(moveDirection.normalized * (moveSpeed * 10f * airMultipler), ForceMode.Force);
+            jogador.rb.AddForce(moveDirection.normalized * (jogador.velocidade * 10f * airMultipler), ForceMode.Force);
         
         if(transform.position.y <= -10 )
             jogador.Morte();
@@ -98,9 +100,9 @@ public class JogadorAndando : Estado
     {
         var flatVel = new Vector3(jogador.rb.linearVelocity.x, jogador.rb.linearVelocity.y, jogador.rb.linearVelocity.z);
 
-        if (flatVel.magnitude > moveSpeed)
+        if (flatVel.magnitude > jogador.velocidade)
         {
-            var limitedVel = flatVel.normalized * moveSpeed;
+            var limitedVel = flatVel.normalized * jogador.velocidade;
             jogador.rb.linearVelocity = new Vector3(limitedVel.x, jogador.rb.linearVelocity.y, limitedVel.z);
         }
 
