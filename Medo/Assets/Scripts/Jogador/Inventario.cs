@@ -15,12 +15,12 @@ public class Inventario : MonoBehaviour
     public int selecionado = 0;
     private List<Item> items = new List<Item>(); 
     public List<Item> GetItems() => new List<Item>(items);
-    public Image image;
+    public InventoryUI UI;
     
     public void AddItem()
     {
         items.Add(itemPerto.item);
-        image.sprite = itemPerto.item.icon;
+        UI.UpdateUI();
         itemPerto.DestroyItem();
     }
 
@@ -28,7 +28,7 @@ public class Inventario : MonoBehaviour
     {
         ItemSpawner.Instance.SpawnItem(items[selecionado],transform.position);
         items.Remove(items[selecionado]);
-        image.sprite = null;
+        UI.UpdateUI();
     }
 
     // index do inventário vai ser o mesmo index da UI e do item "selecionado" 
