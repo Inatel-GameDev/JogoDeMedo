@@ -287,7 +287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7abf7990a2c83b65a29994e226157d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jogador: {fileID: 177170595745043466}
+  jogador: {fileID: 0}
   jogadorHeight: 2
   whatIsGround:
     serializedVersion: 2
@@ -826,7 +826,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61e90b5a6f804a61b1638e9276c3571e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jogador: {fileID: 177170595745043466}
+  jogador: {fileID: 0}
 --- !u!1 &2620388899471051553
 GameObject:
   m_ObjectHideFlags: 0
@@ -1445,12 +1445,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3768121411685735283}
-  - component: {fileID: 177170595745043466}
   - component: {fileID: 3770517676392091107}
   - component: {fileID: 2958656695595214073}
   - component: {fileID: 7042848408398754065}
   - component: {fileID: 5098244948178997641}
   - component: {fileID: 4781774027277117319}
+  - component: {fileID: 32519568803997835}
   m_Layer: 0
   m_Name: Jogador
   m_TagString: Player
@@ -1479,39 +1479,6 @@ Transform:
   - {fileID: 1996833273344534344}
   m_Father: {fileID: 8210692273127235607}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &177170595745043466
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4799935488690606880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f73849c5edb87c9ac9b12c4ba49ccb0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerNameText: {fileID: 0}
-  rb: {fileID: 3770517676392091107}
-  soundPlayer: {fileID: 2958656695595214073}
-  EstadoAtivo: {fileID: 2787963204211848443}
-  EstadoParalisado: {fileID: 8058327451253872729}
-  EstadoAtual: {fileID: 0}
-  vida: 6
-  vidaMaxima: 6
-  velocidade: 10
-  capacidade: 2
-  inventario: {fileID: 0}
-  veneno: 0
-  resistencia: 0
-  cooldownVeneno: 5
-  textoVida: {fileID: 6073157349848853019}
-  cameraPOV: {fileID: 6398247155923744701}
-  celular: {fileID: 5034716221240307752}
-  celularPraCima: 0
-  movendoCelular: 0
-  textoVeneno: {fileID: 7333544703409101763}
-  fillImage: {fileID: 6330929261921514832}
 --- !u!54 &3770517676392091107
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1697,6 +1664,42 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &32519568803997835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4799935488690606880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f73849c5edb87c9ac9b12c4ba49ccb0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  playerNameText: {fileID: 0}
+  rb: {fileID: 3770517676392091107}
+  soundPlayer: {fileID: 2958656695595214073}
+  EstadoAtivo: {fileID: 2787963204211848443}
+  EstadoParalisado: {fileID: 8058327451253872729}
+  EstadoAtual: {fileID: 0}
+  vida: 6
+  vidaMaxima: 6
+  velocidade: 10
+  capacidade: 2
+  inventario: {fileID: 0}
+  veneno: 0
+  resistencia: 0
+  cooldownVeneno: 5
+  textoVida: {fileID: 6073157349848853019}
+  cameraPOV: {fileID: 6398247155923744701}
+  celular: {fileID: 5034716221240307752}
+  celularPraCima: 0
+  movendoCelular: 0
+  textoVeneno: {fileID: 7333544703409101763}
+  fillImage: {fileID: 6330929261921514832}
 --- !u!1 &5022802887656999560
 GameObject:
   m_ObjectHideFlags: 0
@@ -1874,15 +1877,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8210692273127235607}
-  - component: {fileID: 5892320642964998547}
-  - component: {fileID: 2864408032383817778}
+  - component: {fileID: 3963083932881069912}
+  - component: {fileID: 313344009374238701}
   m_Layer: 0
   m_Name: JogadorPreFab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8210692273127235607
 Transform:
   m_ObjectHideFlags: 0
@@ -1901,7 +1904,7 @@ Transform:
   - {fileID: 7582151247948978974}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5892320642964998547
+--- !u!114 &3963083932881069912
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1918,7 +1921,7 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &2864408032383817778
+--- !u!114 &313344009374238701
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1997,10 +2000,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08c75c02edb1ace33b069f4cc0251e97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jogador: {fileID: 177170595745043466}
+  jogador: {fileID: 0}
   itemPerto: {fileID: 0}
   selecionado: 0
-  image: {fileID: 2183128261993788164}
+  UI: {fileID: 0}
 --- !u!135 &4388052356231513453
 SphereCollider:
   m_ObjectHideFlags: 0
