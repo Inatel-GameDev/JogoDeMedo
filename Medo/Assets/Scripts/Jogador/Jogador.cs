@@ -10,7 +10,7 @@ using UnityEngine.UI;
 // Controlar a troca entre estados e possui as variaveis que precisam ser compartilhadas entre estados
 
 // public class Jogador : NetworkBehaviour, MaquinaDeEstado
-public class Jogador : MonoBehaviour, MaquinaDeEstado
+public class Jogador : NetworkBehaviour, MaquinaDeEstado
 {
     
     // [SyncVar(hook = nameof(OnPlayerNameChanged))]
@@ -58,7 +58,7 @@ public class Jogador : MonoBehaviour, MaquinaDeEstado
         // Manager
         // if (!isLocalPlayer && cameraPOV != null)
         //     cameraPOV.gameObject.SetActive(false);
-        
+        NetworkIdentity netId = GetComponentInParent<NetworkIdentity>();
         EstadoAtual = EstadoAtivo;
         textoVida.SetText("Saúde: " + vidaMaxima);
         EstadoAtual.Enter();
@@ -66,8 +66,8 @@ public class Jogador : MonoBehaviour, MaquinaDeEstado
     
     public void FixedUpdate()
     {
-        // if (!isLocalPlayer) return;
-        // CmdSendPosition(transform.position);
+        if (!isLocalPlayer) return;
+        CmdSendPosition(transform.position);
         
         EstadoAtual.FixedDo();
     }
@@ -208,27 +208,27 @@ public class Jogador : MonoBehaviour, MaquinaDeEstado
     {
         PutNameOnUI();
     }
-    //
-    // [Command]
-    // void CmdSendPosition(Vector3 pos)
-    // {
-    //     RpcUpdatePosition(pos);
-    // }
-    // [ClientRpc]
-    // void RpcUpdatePosition(Vector3 pos)
-    // {
-    //     if (isLocalPlayer) return;
-    //     transform.position = pos;
-    // }
-    //
-    // public override void OnStartAuthority()
-    // {
-    //     base.OnStartAuthority();
-    //     if (cameraPOV.gameObject != null)
-    //     {
-    //         cameraPOV.gameObject.SetActive(true);
-    //         Debug.Log("[PlayerController] Câmera ativada.");
-    //     }
-    // }
+    
+    [Command]
+    void CmdSendPosition(Vector3 pos)
+    {
+        RpcUpdatePosition(pos);
+    }
+    [ClientRpc]
+    void RpcUpdatePosition(Vector3 pos)
+    {
+        if (isLocalPlayer) return;
+        transform.position = pos;
+    }
+    
+    public override void OnStartAuthority()
+    {
+        base.OnStartAuthority();
+        if (cameraPOV.gameObject != null)
+        {
+            cameraPOV.gameObject.SetActive(true);
+            Debug.Log("[PlayerController] Câmera ativada.");
+        }
+    }
 
 }

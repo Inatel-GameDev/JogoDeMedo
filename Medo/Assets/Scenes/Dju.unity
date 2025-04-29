@@ -3429,7 +3429,7 @@ MonoBehaviour:
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 5871309246777410365, guid: 80b13e6cddbcb2d7291d5fe5c1ee8752, type: 3}
+  playerPrefab: {fileID: 0}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs: []
@@ -4194,6 +4194,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f73849c5edb87c9ac9b12c4ba49ccb0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   playerNameText: {fileID: 0}
   rb: {fileID: 1929501385}
   soundPlayer: {fileID: 1929501383}
