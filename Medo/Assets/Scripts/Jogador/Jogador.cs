@@ -54,15 +54,23 @@ public class Jogador :  MonoBehaviour, MaquinaDeEstado
     // Unity
 
     private void Start()
+{
+    EstadoAtual = EstadoAtivo;
+    textoVida.SetText("Saúde: " + vidaMaxima);
+    EstadoAtual.Enter();
+
+    // 🔥 Pega o PlayerSpawnPoint na cena e move o player pra lá
+    GameObject spawnPoint = GameObject.Find("PlayerSpawnPoint");
+    if (spawnPoint != null)
     {
-        // Manager
-        // if (!isLocalPlayer && cameraPOV != null)
-        //     cameraPOV.gameObject.SetActive(false);
-        NetworkIdentity netId = GetComponentInParent<NetworkIdentity>();
-        EstadoAtual = EstadoAtivo;
-        textoVida.SetText("Saúde: " + vidaMaxima);
-        EstadoAtual.Enter();
+        transform.position = spawnPoint.transform.position;
+        Debug.Log("Player spawnado em PlayerSpawnPoint.");
     }
+    else
+    {
+        Debug.LogWarning("PlayerSpawnPoint não encontrado na cena!");
+    }
+}
     
     public void FixedUpdate()
     {
