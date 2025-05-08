@@ -10,7 +10,7 @@ using UnityEngine.UI;
 // Controlar a troca entre estados e possui as variaveis que precisam ser compartilhadas entre estados
 
 // public class Jogador : NetworkBehaviour, MaquinaDeEstado
-public class Jogador : NetworkBehaviour, MaquinaDeEstado
+public class Jogador :  MonoBehaviour, MaquinaDeEstado
 {
     
     // [SyncVar(hook = nameof(OnPlayerNameChanged))]
@@ -66,9 +66,6 @@ public class Jogador : NetworkBehaviour, MaquinaDeEstado
     
     public void FixedUpdate()
     {
-        if (!isLocalPlayer) return;
-        CmdSendPosition(transform.position);
-        
         EstadoAtual.FixedDo();
     }
     
@@ -209,26 +206,26 @@ public class Jogador : NetworkBehaviour, MaquinaDeEstado
         PutNameOnUI();
     }
     
-    [Command]
-    void CmdSendPosition(Vector3 pos)
-    {
-        RpcUpdatePosition(pos);
-    }
-    [ClientRpc]
-    void RpcUpdatePosition(Vector3 pos)
-    {
-        if (isLocalPlayer) return;
-        transform.position = pos;
-    }
+    // [Command]
+    // void CmdSendPosition(Vector3 pos)
+    // {
+    //     RpcUpdatePosition(pos);
+    // }
+    // [ClientRpc]
+    // void RpcUpdatePosition(Vector3 pos)
+    // {
+    //     if (isLocalPlayer) return;
+    //     transform.position = pos;
+    // }
     
-    public override void OnStartAuthority()
-    {
-        base.OnStartAuthority();
-        if (cameraPOV.gameObject != null)
-        {
-            cameraPOV.gameObject.SetActive(true);
-            Debug.Log("[PlayerController] Câmera ativada.");
-        }
-    }
+    // public override void OnStartAuthority()
+    // {
+    //     base.OnStartAuthority();
+    //     if (cameraPOV.gameObject != null)
+    //     {
+    //         cameraPOV.gameObject.SetActive(true);
+    //         Debug.Log("[PlayerController] Câmera ativada.");
+    //     }
+    // }
 
 }

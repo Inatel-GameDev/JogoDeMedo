@@ -61,14 +61,14 @@ public class JogadorAtivo : Estado
         // }
         
         // ** Inventário **
-        if (Input.GetKeyDown(KeyCode.E) && jogador.inventario.itemPerto != null)
-        {
-            jogador.inventario.AddItem();
-        }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            jogador.inventario.RemoveItem();
-        }
+        // if (Input.GetKeyDown(KeyCode.E) && jogador.inventario.itemPerto != null)
+        // {
+        //     jogador.inventario.AddItem();
+        // }
+        // if (Input.GetKeyDown(KeyCode.Q))
+        // {
+        //     jogador.inventario.RemoveItem();
+        // }
         // usar  Item 
         // Dropar Item 
         // Selecionar item

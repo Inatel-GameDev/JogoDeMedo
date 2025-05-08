@@ -48,7 +48,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5594977472732249915
 RectTransform:
   m_ObjectHideFlags: 0
@@ -287,7 +287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7abf7990a2c83b65a29994e226157d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jogador: {fileID: 0}
+  jogador: {fileID: 32519568803997835}
   jogadorHeight: 2
   whatIsGround:
     serializedVersion: 2
@@ -1676,9 +1676,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f73849c5edb87c9ac9b12c4ba49ccb0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
   playerNameText: {fileID: 0}
   rb: {fileID: 3770517676392091107}
   soundPlayer: {fileID: 2958656695595214073}
@@ -1879,6 +1876,7 @@ GameObject:
   - component: {fileID: 8210692273127235607}
   - component: {fileID: 3963083932881069912}
   - component: {fileID: 313344009374238701}
+  - component: {fileID: 8144431399200578479}
   m_Layer: 0
   m_Name: JogadorPreFab
   m_TagString: Untagged
@@ -1955,6 +1953,22 @@ MonoBehaviour:
   rotationSensitivity: 0.01
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!114 &8144431399200578479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5871309246777410365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bd3f35fc1577a14d800d57cb8f64e5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  cameraPOV: {fileID: 6398247155923744701}
 --- !u!1 &6528458948783773580
 GameObject:
   m_ObjectHideFlags: 0
