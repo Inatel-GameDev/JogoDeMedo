@@ -24,7 +24,7 @@ public class JogadorAtivo : Estado
 
     public override void FixedDo()
     {
-        // Ajuste importante no raycast:
+        /*// Ajuste importante no raycast:
         Vector3 raycastOrigin = transform.position + Vector3.up * 0.1f;
         float raycastDistance = jogadorHeight / 2f + 0.3f;
 
@@ -35,7 +35,15 @@ public class JogadorAtivo : Estado
 
         if (jogador.rb.linearVelocity.x != 0 || jogador.rb.linearVelocity.z != 0)
         {
-            if (!audioAndar.isPlaying)
+            if (!audioAndar.isPlaying)*/
+        grounded = Physics.Raycast(transform.position, Vector3.down, jogadorHeight / 2f, whatIsGround);
+        Debug.DrawRay(transform.position, Vector3.down * (jogadorHeight / 2), grounded ? Color.green : Color.red);
+        if (grounded)
+            jogador.rb.linearDamping = groundDrag;
+        else
+            jogador.rb.linearDamping = 0;
+        if (jogador.rb.linearVelocity.x != 0 || jogador.rb.linearVelocity.z != 0){
+            if(!audioAndar.isPlaying)
                 audioAndar.Play();
         }
         else
