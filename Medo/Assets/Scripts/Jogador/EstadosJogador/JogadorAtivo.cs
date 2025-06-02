@@ -42,8 +42,9 @@ public class JogadorAtivo : Estado
             jogador.rb.linearDamping = groundDrag;
         else
             jogador.rb.linearDamping = 0;
-        if (jogador.rb.linearVelocity.x != 0 || jogador.rb.linearVelocity.z != 0){
-            if(!audioAndar.isPlaying)
+        if (jogador.rb.linearVelocity.x != 0 || jogador.rb.linearVelocity.z != 0)
+        {
+            if (!audioAndar.isPlaying)
                 audioAndar.Play();
         }
         else
@@ -93,7 +94,8 @@ public class JogadorAtivo : Estado
 
     private void SpeedControl()
     {
-        var flatVel = new Vector3(jogador.rb.linearVelocity.x, jogador.rb.linearVelocity.y, jogador.rb.linearVelocity.z);
+        var flatVel = new Vector3(jogador.rb.linearVelocity.x, jogador.rb.linearVelocity.y,
+            jogador.rb.linearVelocity.z);
 
         if (flatVel.magnitude > jogador.velocidade)
         {
@@ -104,7 +106,8 @@ public class JogadorAtivo : Estado
 
     private void Jump()
     {
-        jogador.rb.linearVelocity = new Vector3(jogador.rb.linearVelocity.x / 0.5f, 0f, jogador.rb.linearVelocity.z / 0.5f);
+        jogador.rb.linearVelocity =
+            new Vector3(jogador.rb.linearVelocity.x / 0.5f, 0f, jogador.rb.linearVelocity.z / 0.5f);
         jogador.rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }
 
@@ -112,4 +115,6 @@ public class JogadorAtivo : Estado
     {
         readyToJump = true;
     }
+
+
 }

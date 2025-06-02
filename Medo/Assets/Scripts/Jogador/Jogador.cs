@@ -105,18 +105,15 @@ public class Jogador :  MonoBehaviour, MaquinaDeEstado
             Debug.Log("Machucado");            
         }
     }
-    
-    void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.CompareTag("BombaFungo")){
-            if (resistencia == 0)
-            {
-                CriaBarraVeneno();
-            }
-            Destroy(other.gameObject);
-            veneno += 1; 
-            StartCoroutine(Envenenado());
-        }                
+
+    public void  acertouBombaDeVeneno(Collider other) {
+        if (resistencia == 0)
+        {
+            CriaBarraVeneno();
+        }
+        Destroy(other.gameObject);
+        veneno += 1; 
+        StartCoroutine(Envenenado());
     }
     
     public IEnumerator Envenenado()
@@ -141,6 +138,13 @@ public class Jogador :  MonoBehaviour, MaquinaDeEstado
         vida = vidaMaxima;
         soundPlayer.playSound(SoundsJogador.instance.morte);
         Debug.Log("Morreu");
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("BombaFungo"))
+        {
+            acertouBombaDeVeneno(other);
+        }
     }
 
     // ****************************************************************************************************************

@@ -16,7 +16,12 @@ public class Inventario : MonoBehaviour
     private List<Item> items = new List<Item>(); 
     public List<Item> GetItems() => new List<Item>(items);
     public InventoryUI UI;
-    
+
+    private void Start()
+    {
+        Physics.IgnoreLayerCollision(6,7); // colisao entre monstro e colliderItem
+    }
+
     public void AddItem()
     {
         items.Add(itemPerto.item);

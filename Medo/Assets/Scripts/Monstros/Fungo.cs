@@ -32,7 +32,7 @@ public class Fungo : Monstro
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") && other.gameObject.layer != LayerMask.NameToLayer("ColliderItem"))
         {
             Jogador jogador = other.gameObject.GetComponent<Jogador>();
             jogador.veneno += 20; 
